@@ -27,7 +27,6 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .lang-toggle-btn:active { background: #e8f5e9; }
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f9f9f9; border-bottom: 1px solid #ddd; }
         
@@ -44,14 +43,13 @@
         .btn-10 { background: #00695c; }
         .btn-11 { background: #c62828; }
         .btn-12 { background: #827717; }
+        .btn-13 { background: #00897b; }
 
         .section { padding: 12px; display: none; }
         .section.active { display: block; }
         
         .back-menu-btn { background: #f0f0f0; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #555; cursor: pointer; margin-bottom: 10px; }
-        
         .reset-btn { width: 100%; padding: 10px; background-color: #c62828; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .reset-btn:active { background-color: #b71c1c; }
 
         .form-group { margin-bottom: 10px; }
         label { display: block; margin-bottom: 3px; font-weight: 600; font-size: 12px; color: #555; }
@@ -71,9 +69,19 @@
         #calcScreen { width: 100%; height: 50px; font-size: 20px; text-align: right; margin-bottom: 8px; padding: 5px; background: #fff; }
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .calc-key { padding: 12px; font-size: 16px; font-weight: bold; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 6px; cursor: pointer; text-align: center; color: #2e7d32; }
-        .calc-key:active { background: #2e7d32; color: #fff; }
         .calc-key.operator { background: #c8e6c9; }
         .calc-key.equal { background: #2e7d32; color: #fff; grid-column: span 2; }
+
+        .summary-card { display: flex; gap: 6px; margin-bottom: 10px; }
+        .sum-box { flex: 1; padding: 8px; border-radius: 6px; text-align: center; font-size: 12px; color: white; }
+        .sum-income { background: #2e7d32; }
+        .sum-expense { background: #c62828; }
+        .sum-balance { background: #0277bd; }
+        .trans-list { margin-top: 10px; max-height: 200px; overflow-y: auto; }
+        .trans-item { display: flex; justify-content: space-between; padding: 8px; margin-bottom: 6px; background: #fafafa; border-radius: 6px; border-left: 4px solid #ccc; font-size: 12px; align-items: center; }
+        .trans-item.income { border-left-color: #2e7d32; }
+        .trans-item.expense { border-left-color: #c62828; }
+        .del-btn { background: none; border: none; color: #c62828; font-weight: bold; cursor: pointer; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -98,6 +106,7 @@
         <button class="menu-btn btn-10" onclick="openSection('milk')"><span data-hi="🥛 दूध का हिसाब" data-en="🥛 Milk Calculation">🥛 दूध का हिसाब</span> <span>➔</span></button>
         <button class="menu-btn btn-11" onclick="openSection('age')"><span data-hi="⏳ उम्र और वार" data-en="⏳ Age & Day">⏳ उम्र और वार</span> <span>➔</span></button>
         <button class="menu-btn btn-12" onclick="openSection('item-rate')"><span data-hi="⚖️ सामान का भाव" data-en="⚖️ Item Rate / Weight">⚖️ सामान का भाव</span> <span>➔</span></button>
+        <button class="menu-btn btn-13" onclick="openSection('income-expense')"><span data-hi="📊 आवक-जावक / खर्चा" data-en="📊 Income & Expense">📊 आवक-जावक / खर्चा</span> <span>➔</span></button>
     </div>
 
     <!-- साधारण कैलकुलेटर -->
@@ -132,29 +141,29 @@
         <button class="reset-btn" onclick="resetCashForm()">🔄 Reset All</button>
         <table class="cash-table">
             <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
-            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="" placeholder="कुल सिक्के" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
-            <tr><td>खुलें पैसे (₹)</td><td><input type="text" id="loosePaisa" value="0." oninput="handleLoosePaisa(this)" onkeydown="preventDeleteDot(event)"></td><td id="looseSub">0.00</td></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>सिक्के कुल</td><td><input type="number" class="cash-qty" data-val="1" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>खुले पैसे</td><td><input type="text" id="loosePaisa" value="0." oninput="handleLoosePaisa(this)" onkeydown="preventDeleteDot(event)"></td><td id="looseSub">0.00</td></tr>
         </table>
-        <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
+        <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
 
     <!-- जमीन माप -->
     <div id="land-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
-            <div class="form-group"><label>मात्रा / Quantity:</label><input type="number" id="landInput" placeholder="जैसे: 1" oninput="saveField('land')"></div>
-            <div class="form-group"><label>इकाई / Unit:</label>
+            <div class="form-group"><label>मात्रा:</label><input type="number" id="landInput" placeholder="1" oninput="saveField('land')"></div>
+            <div class="form-group"><label>इकाई:</label>
                 <select id="landUnit" onchange="saveField('land')">
-                    <option value="gaj">गज (Sq Yards)</option>
-                    <option value="killa">किल्ला / एकड़ (Acre)</option>
-                    <option value="kanal">कनाल (Kanal)</option>
-                    <option value="marla">मरला (Marla)</option>
+                    <option value="gaj">गज</option>
+                    <option value="killa">किल्ला / एकड़</option>
+                    <option value="kanal">कनाल</option>
+                    <option value="marla">मरला</option>
                 </select>
             </div>
         </div>
@@ -165,11 +174,11 @@
     <!-- देसी ब्याज -->
     <div id="interest-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>मूलधन (₹) / Principal:</label><input type="number" id="principal" placeholder="50000" oninput="saveField('interest')"></div>
-        <div class="form-group"><label>ब्याज दर (रु सैकड़ा/महीना) / Interest Rate:</label><input type="number" id="rate" placeholder="2" step="0.5" oninput="saveField('interest')"></div>
+        <div class="form-group"><label>मूलधन (₹):</label><input type="number" id="principal" placeholder="50000" oninput="saveField('interest')"></div>
+        <div class="form-group"><label>ब्याज दर (रु सैकड़ा/माह):</label><input type="number" id="rate" placeholder="2" step="0.5" oninput="saveField('interest')"></div>
         <div class="row">
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="months" placeholder="0" oninput="saveField('interest')"></div>
-            <div class="form-group"><label>दिन / Days:</label><input type="number" id="days" placeholder="0" oninput="saveField('interest')"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="months" placeholder="0" oninput="saveField('interest')"></div>
+            <div class="form-group"><label>दिन:</label><input type="number" id="days" placeholder="0" oninput="saveField('interest')"></div>
         </div>
         <button class="calc-btn" onclick="calculateInterest()">ब्याज निकालें</button>
         <div class="result-box" id="interestResult" style="display:none;"><h3>नतीजा:</h3><p id="interestOutputText"></p></div>
@@ -179,15 +188,15 @@
     <div id="weight-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
-            <div class="form-group"><label>मात्रा / Qty:</label><input type="number" id="wtInput" placeholder="5" oninput="saveField('weight')"></div>
-            <div class="form-group"><label>बदलाव / Conversion:</label>
+            <div class="form-group"><label>मात्रा:</label><input type="number" id="wtInput" placeholder="5" oninput="saveField('weight')"></div>
+            <div class="form-group"><label>बदलाव:</label>
                 <select id="wtType" onchange="saveField('weight')">
-                    <option value="man_to_kg">मन से किलो (Man to Kg)</option>
-                    <option value="kg_to_man">किलो से मन (Kg to Man)</option>
-                    <option value="quintal_to_kg">क्विंटल से किलो (Quintal to Kg)</option>
-                    <option value="kg_to_g">किलो से ग्राम (Kg to Gram)</option>
-                    <option value="km_to_m">किमी से मीटर (Km to Meter)</option>
-                    <option value="m_to_km">मीटर से किमी (Meter to Km)</option>
+                    <option value="man_to_kg">मन से किलो</option>
+                    <option value="kg_to_man">किलो से मन</option>
+                    <option value="quintal_to_kg">क्विंटल से किलो</option>
+                    <option value="kg_to_g">किलो से ग्राम</option>
+                    <option value="km_to_m">किमी से मीटर</option>
+                    <option value="m_to_km">मीटर से किमी</option>
                 </select>
             </div>
         </div>
@@ -198,13 +207,13 @@
     <!-- बैंक लोन -->
     <div id="loan-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>लोन राशि (₹) / Loan Amount:</label><input type="number" id="loanAmount" placeholder="200000" oninput="saveField('loan')"></div>
-        <div class="form-group"><label>ब्याज दर (% सालाना) / Annual Rate:</label><input type="number" id="loanRate" placeholder="10" step="0.1" oninput="saveField('loan')"></div>
+        <div class="form-group"><label>लोन राशि (₹):</label><input type="number" id="loanAmount" placeholder="200000" oninput="saveField('loan')"></div>
+        <div class="form-group"><label>ब्याज दर (% वार्षिक):</label><input type="number" id="loanRate" placeholder="10" step="0.1" oninput="saveField('loan')"></div>
         <div class="row">
-            <div class="form-group"><label>साल / Years:</label><input type="number" id="loanYears" placeholder="0" oninput="saveField('loan')"></div>
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="loanMonths" placeholder="0" oninput="saveField('loan')"></div>
+            <div class="form-group"><label>साल:</label><input type="number" id="loanYears" placeholder="0" oninput="saveField('loan')"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="loanMonths" placeholder="0" oninput="saveField('loan')"></div>
         </div>
-        <div class="form-group"><label>दिन / Days:</label><input type="number" id="loanDays" placeholder="0" oninput="saveField('loan')"></div>
+        <div class="form-group"><label>दिन:</label><input type="number" id="loanDays" placeholder="0" oninput="saveField('loan')"></div>
         <button class="calc-btn" onclick="calculateLoan()">EMI निकालें</button>
         <div class="result-box" id="loanResult" style="display:none;"><h3>नतीजा:</h3><p id="loanOutputText"></p></div>
     </div>
@@ -212,13 +221,13 @@
     <!-- FD ब्याज -->
     <div id="fd-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>FD मूलधन (₹) / FD Amount:</label><input type="number" id="fdAmount" placeholder="100000" oninput="saveField('fd')"></div>
-        <div class="form-group"><label>ब्याज दर (% सालाना) / Interest Rate:</label><input type="number" id="fdRate" placeholder="6.5" step="0.1" oninput="saveField('fd')"></div>
+        <div class="form-group"><label>FD मूलधन (₹):</label><input type="number" id="fdAmount" placeholder="100000" oninput="saveField('fd')"></div>
+        <div class="form-group"><label>ब्याज दर (% वार्षिक):</label><input type="number" id="fdRate" placeholder="6.5" step="0.1" oninput="saveField('fd')"></div>
         <div class="row">
-            <div class="form-group"><label>साल / Years:</label><input type="number" id="fdYears" placeholder="0" oninput="saveField('fd')"></div>
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="fdMonths" placeholder="0" oninput="saveField('fd')"></div>
+            <div class="form-group"><label>साल:</label><input type="number" id="fdYears" placeholder="0" oninput="saveField('fd')"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="fdMonths" placeholder="0" oninput="saveField('fd')"></div>
         </div>
-        <div class="form-group"><label>दिन / Days:</label><input type="number" id="fdDays" placeholder="0" oninput="saveField('fd')"></div>
+        <div class="form-group"><label>दिन:</label><input type="number" id="fdDays" placeholder="0" oninput="saveField('fd')"></div>
         <button class="calc-btn" onclick="calculateFD()">FD हिसाब</button>
         <div class="result-box" id="fdResult" style="display:none;"><h3>नतीजा:</h3><p id="fdOutputText"></p></div>
     </div>
@@ -226,9 +235,9 @@
     <!-- डीजल / एवरेज -->
     <div id="diesel-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150" oninput="saveField('diesel')"></div>
-        <div class="form-group"><label>खर्च डीजल (Litre):</label><input type="number" id="dLitre" placeholder="10" oninput="saveField('diesel')"></div>
-        <div class="form-group"><label>डीजल भाव (₹ प्रति लीटर):</label><input type="number" id="dRate" placeholder="90" oninput="saveField('diesel')"></div>
+        <div class="form-group"><label>दूरी (Km):</label><input type="number" id="dKm" placeholder="150" oninput="saveField('diesel')"></div>
+        <div class="form-group"><label>डीजल (Litre):</label><input type="number" id="dLitre" placeholder="10" oninput="saveField('diesel')"></div>
+        <div class="form-group"><label>भाव (₹ प्रति लीटर):</label><input type="number" id="dRate" placeholder="90" oninput="saveField('diesel')"></div>
         <button class="calc-btn" onclick="calculateDiesel()">एवरेज निकालें</button>
         <div class="result-box" id="dieselResult" style="display:none;"><h3>नतीजा:</h3><p id="dieselOutputText"></p></div>
     </div>
@@ -236,10 +245,10 @@
     <!-- मजदूरी / दिहाड़ी -->
     <div id="labor-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>एक दिन की दिहाड़ी (₹) / Daily Wage:</label><input type="number" id="lWage" placeholder="500" oninput="saveField('labor')"></div>
+        <div class="form-group"><label>दिहाड़ी (₹ प्रतिदिन):</label><input type="number" id="lWage" placeholder="500" oninput="saveField('labor')"></div>
         <div class="row">
-            <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="lDays" placeholder="12" oninput="saveField('labor')"></div>
-            <div class="form-group"><label>घंटे / Hours:</label><input type="number" id="lHours" placeholder="0" oninput="saveField('labor')"></div>
+            <div class="form-group"><label>कुल दिन:</label><input type="number" id="lDays" placeholder="12" oninput="saveField('labor')"></div>
+            <div class="form-group"><label>घंटे:</label><input type="number" id="lHours" placeholder="0" oninput="saveField('labor')"></div>
         </div>
         <button class="calc-btn" onclick="calculateLabor()">मजदूरी हिसाब</button>
         <div class="result-box" id="laborResult" style="display:none;"><h3>नतीजा:</h3><p id="laborOutputText"></p></div>
@@ -248,9 +257,9 @@
     <!-- दूध का हिसाब -->
     <div id="milk-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>प्रतिदिन दूध (Litre) / Daily Milk:</label><input type="number" id="mLiters" placeholder="5" step="0.5" oninput="saveField('milk')"></div>
-        <div class="form-group"><label>भाव (₹ प्रति लीटर) / Rate:</label><input type="number" id="mRate" placeholder="60" oninput="saveField('milk')"></div>
-        <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="mDays" placeholder="30" oninput="saveField('milk')"></div>
+        <div class="form-group"><label>प्रतिदिन दूध (Litre):</label><input type="number" id="mLiters" placeholder="5" step="0.5" oninput="saveField('milk')"></div>
+        <div class="form-group"><label>भाव (₹ प्रति लीटर):</label><input type="number" id="mRate" placeholder="60" oninput="saveField('milk')"></div>
+        <div class="form-group"><label>कुल दिन:</label><input type="number" id="mDays" placeholder="30" oninput="saveField('milk')"></div>
         <button class="calc-btn" onclick="calculateMilk()">दूध हिसाब</button>
         <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
     </div>
@@ -258,7 +267,7 @@
     <!-- उम्र और वार -->
     <div id="age-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>जन्म तारीख / Birth Date:</label><input type="date" id="birthDate" onchange="saveField('age')"></div>
+        <div class="form-group"><label>जन्म तारीख:</label><input type="date" id="birthDate" onchange="saveField('age')"></div>
         <button class="calc-btn" onclick="calculateAge()">उम्र निकालें</button>
         <div class="result-box" id="ageResult" style="display:none;"><h3>नतीजा:</h3><p id="ageOutputText"></p></div>
     </div>
@@ -266,34 +275,58 @@
     <!-- सामान का भाव -->
     <div id="item-rate-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100" oninput="saveField('itemRate')"></div>
+        <div class="form-group"><label>भाव (₹ कितने का):</label><input type="number" id="itemPrice" placeholder="100" oninput="saveField('itemRate')"></div>
         <div class="row">
-            <div class="form-group"><label>कितनी मात्रा का / Qty:</label><input type="number" id="itemQty" value="1" placeholder="1" oninput="saveField('itemRate')"></div>
-            <div class="form-group"><label>इकाई / Unit:</label>
+            <div class="form-group"><label>मात्रा:</label><input type="number" id="itemQty" value="1" placeholder="1" oninput="saveField('itemRate')"></div>
+            <div class="form-group"><label>इकाई:</label>
                 <select id="itemUnit" onchange="saveField('itemRate')">
-                    <option value="kg">किलोग्राम (Kg)</option>
-                    <option value="gram">ग्राम (Gram)</option>
-                    <option value="litre">लीटर (Litre)</option>
-                    <option value="piece">नग / पीस (Piece)</option>
-                </select>
-            </div>
-        </div>
-        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
-        <p style="font-size: 13px; font-weight: bold; color: #2e7d32; margin-bottom: 6px;">पड़ताल (क्या निकालना है?):</p>
-        <div class="row">
-            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500" oninput="saveField('itemRate')"></div>
-            <div class="form-group"><label>इकाई चुनें:</label>
-                <select id="checkWeightUnit" onchange="saveField('itemRate')">
-                    <option value="gram">ग्राम (Gram)</option>
-                    <option value="kg">किलोग्राम (Kg)</option>
-                    <option value="ml">मिलीलीटर (Ml)</option>
+                    <option value="kg">किलोग्राम</option>
+                    <option value="gram">ग्राम</option>
+                    <option value="litre">लीटर</option>
                     <option value="piece">पीस</option>
                 </select>
             </div>
         </div>
-        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50" oninput="saveField('itemRate')"></div>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
+        <div class="row">
+            <div class="form-group"><label>वजनी जाँच:</label><input type="number" id="checkWeight" placeholder="500" oninput="saveField('itemRate')"></div>
+            <div class="form-group"><label>इकाई:</label>
+                <select id="checkWeightUnit" onchange="saveField('itemRate')">
+                    <option value="gram">ग्राम</option>
+                    <option value="kg">किलोग्राम</option>
+                    <option value="ml">मिलीलीटर</option>
+                    <option value="piece">पीस</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"><label>या रुपये से जाँच:</label><input type="number" id="checkMoney" placeholder="50" oninput="saveField('itemRate')"></div>
         <button class="calc-btn" onclick="calculateItemRate()">हिसाब देखें</button>
         <div class="result-box" id="itemResult" style="display:none;"><h3>नतीजा:</h3><p id="itemOutputText"></p></div>
+    </div>
+
+    <!-- आवक-जावक / खर्चा -->
+    <div id="income-expense-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
+        
+        <div class="summary-card">
+            <div class="sum-box sum-income">आवक<br><b id="sumIncome">₹0</b></div>
+            <div class="sum-box sum-expense">खर्चा<br><b id="sumExpense">₹0</b></div>
+            <div class="sum-box sum-balance">बचत<br><b id="sumBalance">₹0</b></div>
+        </div>
+
+        <div class="row">
+            <div class="form-group"><label>रुपये (₹):</label><input type="number" id="ieAmount" placeholder="500"></div>
+            <div class="form-group"><label>प्रकार:</label>
+                <select id="ieType">
+                    <option value="income">आवक (पैसा आया)</option>
+                    <option value="expense" selected>खर्चा (पैसा गया)</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"><label>विवरण (किस बात का):</label><input type="text" id="ieNote" placeholder="जैसे: डीजल, सामान, मजदूरी"></div>
+        <button class="calc-btn" onclick="addTransaction()">जोड़ें / Save</button>
+
+        <div class="trans-list" id="transList"></div>
     </div>
 
 </div>
@@ -301,13 +334,13 @@
 <script>
     let currentLang = 'hi';
 
-    // Restore section and all saved data on page load
     window.onload = function() {
         let savedSection = localStorage.getItem('activeSection');
         if (savedSection && savedSection !== 'menu') {
             openSection(savedSection, true);
         }
         loadAllData();
+        loadTransactions();
     };
 
     function toggleLanguage() {
@@ -357,43 +390,29 @@
         }
     };
 
-    // Generic function to save input fields data for any section
     function saveField(sectionKey) {
         let data = {};
         let secElement = document.getElementById(sectionKey + '-section');
         if (!secElement) return;
-        secElement.querySelectorAll('input, select').forEach((el, index) => {
-            if(el.id) {
-                data[el.id] = el.value;
-            }
+        secElement.querySelectorAll('input, select').forEach((el) => {
+            if(el.id) data[el.id] = el.value;
         });
         localStorage.setItem('sectionData_' + sectionKey, JSON.stringify(data));
     }
 
-    function saveAndCalcField(sectionKey) {
-        calculateCash();
-    }
-
-    // Load data for all sections
     function loadAllData() {
-        // Load Cash
         let savedCash = localStorage.getItem('cashCounterData');
         if (savedCash) {
             try {
                 let cashData = JSON.parse(savedCash);
                 document.querySelectorAll('.cash-qty').forEach((input, index) => {
-                    if (cashData['qty_' + index] !== undefined) {
-                        input.value = cashData['qty_' + index];
-                    }
+                    if (cashData['qty_' + index] !== undefined) input.value = cashData['qty_' + index];
                 });
-                if (cashData['loose'] !== undefined) {
-                    document.getElementById('loosePaisa').value = cashData['loose'];
-                }
+                if (cashData['loose'] !== undefined) document.getElementById('loosePaisa').value = cashData['loose'];
                 calculateCash();
             } catch(e) {}
         }
 
-        // Load other sections dynamically
         let sections = ['land', 'interest', 'weight', 'loan', 'fd', 'diesel', 'labor', 'milk', 'age', 'itemRate'];
         sections.forEach(secKey => {
             let saved = localStorage.getItem('sectionData_' + secKey);
@@ -402,15 +421,12 @@
                     let data = JSON.parse(saved);
                     for (let id in data) {
                         let el = document.getElementById(id);
-                        if (el) {
-                            el.value = data[id];
-                        }
+                        if (el) el.value = data[id];
                     }
                 } catch(e) {}
             }
         });
 
-        // Load Simple Calculator Screen if needed
         let calcScr = localStorage.getItem('simpleCalcScreen');
         if(calcScr) {
             let scr = document.getElementById('calcScreen');
@@ -418,7 +434,6 @@
         }
     }
 
-    // Save and Calculate Cash
     function calculateCash() {
         let total = 0;
         let cashData = {};
@@ -432,13 +447,7 @@
         });
 
         let looseVal = document.getElementById('loosePaisa').value;
-        let looseNum = 0;
-        if (looseVal.startsWith("0.")) {
-            let decimalPart = looseVal.substring(2);
-            looseNum = parseFloat("0." + decimalPart) || 0;
-        } else {
-            looseNum = parseFloat(looseVal) || 0;
-        }
+        let looseNum = looseVal.startsWith("0.") ? (parseFloat("0." + looseVal.substring(2)) || 0) : (parseFloat(looseVal) || 0);
 
         document.getElementById('looseSub').innerText = looseNum.toFixed(2);
         total += looseNum;
@@ -448,14 +457,9 @@
         localStorage.setItem('cashCounterData', JSON.stringify(cashData));
     }
 
-    // Reset cash form function
     function resetCashForm() {
-        document.querySelectorAll('.cash-qty').forEach(input => {
-            input.value = '';
-        });
-        document.querySelectorAll('.cash-sub').forEach(td => {
-            td.innerText = '0';
-        });
+        document.querySelectorAll('.cash-qty').forEach(input => input.value = '');
+        document.querySelectorAll('.cash-sub').forEach(td => td.innerText = '0');
         document.getElementById('loosePaisa').value = '0.';
         document.getElementById('looseSub').innerText = '0.00';
         document.getElementById('totalCashText').innerText = '₹ 0';
@@ -463,18 +467,12 @@
     }
 
     function handleLoosePaisa(input) {
-        let val = input.value;
-        if (!val.startsWith("0.")) {
-            input.value = "0.";
-        }
+        if (!input.value.startsWith("0.")) input.value = "0.";
         calculateCash();
     }
 
     function preventDeleteDot(event) {
-        let input = event.target;
-        if (event.key === "Backspace" && input.selectionStart <= 2 && input.selectionEnd <= 2) {
-            event.preventDefault();
-        }
+        if (event.key === "Backspace" && event.target.selectionStart <= 2) event.preventDefault();
     }
 
     function clcAppend(val) { 
@@ -489,8 +487,7 @@
     }
     function clcDel() { 
         let scr = document.getElementById('calcScreen');
-        let s = scr.value; 
-        scr.value = s.substring(0, s.length - 1); 
+        scr.value = scr.value.substring(0, scr.value.length - 1); 
         localStorage.setItem('simpleCalcScreen', scr.value);
     }
     function clscEval() {
@@ -499,7 +496,62 @@
             scr.value = eval(scr.value); 
             localStorage.setItem('simpleCalcScreen', scr.value);
         }
-        catch(e) { alert("गलत हिसाब! / Invalid calculation!"); }
+        catch(e) { alert("गलत हिसाब!"); }
+    }
+
+    // Income & Expense Logic
+    function addTransaction() {
+        let amount = parseFloat(document.getElementById('ieAmount').value);
+        let type = document.getElementById('ieType').value;
+        let note = document.getElementById('ieNote').value.trim() || (type === 'income' ? 'आवक' : 'खर्चा');
+
+        if(isNaN(amount) || amount <= 0) { alert("कृपया सही रुपये भरें!"); return; }
+
+        let transList = JSON.parse(localStorage.getItem('incomeExpenseList') || '[]');
+        transList.unshift({ id: Date.now(), amount, type, note });
+        
+        localStorage.setItem('incomeExpenseList', JSON.stringify(transList));
+        document.getElementById('ieAmount').value = '';
+        document.getElementById('ieNote').value = '';
+        loadTransactions();
+    }
+
+    function deleteTransaction(id) {
+        let transList = JSON.parse(localStorage.getItem('incomeExpenseList') || '[]');
+        transList = transList.filter(item => item.id !== id);
+        localStorage.setItem('incomeExpenseList', JSON.stringify(transList));
+        loadTransactions();
+    }
+
+    function loadTransactions() {
+        let transList = JSON.parse(localStorage.getItem('incomeExpenseList') || '[]');
+        let container = document.getElementById('transList');
+        container.innerHTML = '';
+        
+        let totalInc = 0, totalExp = 0;
+
+        transList.forEach(item => {
+            if(item.type === 'income') totalInc += item.amount;
+            else totalExp += item.amount;
+
+            let div = document.createElement('div');
+            div.className = `trans-item ${item.type}`;
+            div.innerHTML = `
+                <div><b>${item.note}</b><br><small style="color:#666;">${item.type === 'income' ? 'आवक' : 'खर्चा'}</small></div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="color:${item.type === 'income' ? '#2e7d32' : '#c62828'}; font-weight:bold;">${item.type === 'income' ? '+' : '-'}₹${item.amount.toLocaleString('en-IN')}</span>
+                    <button class="del-btn" onclick="deleteTransaction(${item.id})">×</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        document.getElementById('sumIncome').innerText = '₹' + totalInc.toLocaleString('en-IN');
+        document.getElementById('sumExpense').innerText = '₹' + totalExp.toLocaleString('en-IN');
+        let balance = totalInc - totalExp;
+        let balEl = document.getElementById('sumBalance');
+        balEl.innerText = '₹' + balance.toLocaleString('en-IN');
+        balEl.style.color = balance >= 0 ? '#fff' : '#ffeb3b';
     }
 
     function calculateItemRate() {
@@ -507,45 +559,24 @@
         let price = parseFloat(document.getElementById('itemPrice').value);
         let qty = parseFloat(document.getElementById('itemQty').value);
         let unit = document.getElementById('itemUnit').value;
+        if(isNaN(price) || isNaN(qty) || qty <= 0) { alert("सही भाव भरें!"); return; }
 
-        if(isNaN(price) || isNaN(qty) || qty <= 0) { alert("कृपया सही भाव और मात्रा भरें!"); return; }
+        let baseRate = price / qty; 
+        let cW = parseFloat(document.getElementById('checkWeight').value);
+        let cWU = document.getElementById('checkWeightUnit').value;
+        let cM = parseFloat(document.getElementById('checkMoney').value);
 
-        let baseRatePerUnit = price / qty; 
-        let cWeight = parseFloat(document.getElementById('checkWeight').value);
-        let cWeightUnit = document.getElementById('checkWeightUnit').value;
-        let cMoney = parseFloat(document.getElementById('checkMoney').value);
-
-        let outputText = `• आधार भाव: ₹${price} का ${qty} ${unit}<br>`;
-
-        if(!isNaN(cWeight) && cWeight > 0) {
-            let actualKgOrUnit = cWeight;
-            if(cWeightUnit === 'gram' || cWeightUnit === 'ml') {
-                actualKgOrUnit = cWeight / 1000;
-            }
-            let calculatedCost = baseRatePerUnit * actualKgOrUnit;
-            outputText += `• ${cWeight} ${cWeightUnit} का मूल्य: <b>₹${calculatedCost.toFixed(2)}</b><br>`;
+        let text = `• आधार: ₹${price} (${qty} ${unit})<br>`;
+        if(!isNaN(cW) && cW > 0) {
+            let act = (cWU === 'gram' || cWU === 'ml') ? cW / 1000 : cW;
+            text += `• ${cW} ${cWU} का मूल्य: <b>₹${(baseRate * act).toFixed(2)}</b><br>`;
         }
-
-        if(!isNaN(cMoney) && cMoney > 0) {
-            let calculatedQty = cMoney / baseRatePerUnit;
-            let qtyDisplayText = calculatedQty.toFixed(3);
-            if(unit === 'kg' || unit === 'litre') {
-                if(calculatedQty < 1) {
-                    qtyDisplayText = `${(calculatedQty * 1000).toFixed(0)} ग्राम/मिलीलीटर`;
-                } else {
-                    qtyDisplayText = `${calculatedQty.toFixed(2)} ${unit}`;
-                }
-            } else {
-                qtyDisplayText = `${calculatedQty.toFixed(2)} ${unit}`;
-            }
-            outputText += `• ₹${cMoney} में मिलने वाली मात्रा: <b>${qtyDisplayText}</b>`;
+        if(!isNaN(cM) && cM > 0) {
+            let cQ = cM / baseRate;
+            let qText = (unit === 'kg' || unit === 'litre') && cQ < 1 ? `${(cQ * 1000).toFixed(0)} ग्राम` : `${cQ.toFixed(2)} ${unit}`;
+            text += `• ₹${cM} में मात्रा: <b>${qText}</b>`;
         }
-
-        if((isNaN(cWeight) || cWeight <= 0) && (isNaN(cMoney) || cMoney <= 0)) {
-            outputText += `• 1 ${unit} का भाव: ₹${baseRatePerUnit.toFixed(2)}`;
-        }
-
-        document.getElementById('itemOutputText').innerHTML = outputText;
+        document.getElementById('itemOutputText').innerHTML = text;
         document.getElementById('itemResult').style.display = 'block';
     }
 
@@ -555,7 +586,7 @@
         let unit = document.getElementById('landUnit').value;
         if(isNaN(val) || val <= 0) { alert("सही अंक भरें!"); return; }
         let gaj = unit === 'gaj' ? val : (unit === 'killa' ? val * 4840 : (unit === 'kanal' ? val * 605 : val * 30.25));
-        let text = `• ${gaj.toLocaleString('en-IN')} गज (Sq Yards)<br>• ${(gaj/605).toFixed(2)} कनाल<br>• ${(gaj/30.25).toFixed(2)} मरला<br>• ${(gaj/4840).toFixed(3)} किल्ला / एकड़`;
+        let text = `• ${gaj.toLocaleString('en-IN')} गज<br>• ${(gaj/605).toFixed(2)} कनाल<br>• ${(gaj/30.25).toFixed(2)} मरला<br>• ${(gaj/4840).toFixed(3)} एकड़`;
         document.getElementById('landOutputText').innerHTML = text;
         document.getElementById('landResult').style.display = 'block';
     }
@@ -568,7 +599,7 @@
         let d = parseFloat(document.getElementById('days').value) || 0;
         if(isNaN(p) || isNaN(r)) { alert("मूलधन व दर भरें!"); return; }
         let interest = (p * r * (m + (d / 30))) / 100;
-        document.getElementById('interestOutputText').innerHTML = `ब्याज / Interest: ₹${Math.round(interest).toLocaleString('en-IN')}<br>कुल योग / Total: ₹${Math.round(p + interest).toLocaleString('en-IN')}`;
+        document.getElementById('interestOutputText').innerHTML = `ब्याज: ₹${Math.round(interest).toLocaleString('en-IN')}<br>कुल: ₹${Math.round(p + interest).toLocaleString('en-IN')}`;
         document.getElementById('interestResult').style.display = 'block';
     }
 
@@ -591,7 +622,7 @@
         let r = ar / 12 / 100;
         let emi = (p * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
         let total = emi * months;
-        document.getElementById('loanOutputText').innerHTML = `मासिक EMI: ₹${Math.round(emi).toLocaleString('en-IN')}<br>कुल ब्याज / Total Interest: ₹${Math.round(total - p).toLocaleString('en-IN')}<br>कुल भुगतान / Total Payment: ₹${Math.round(total).toLocaleString('en-IN')}`;
+        document.getElementById('loanOutputText').innerHTML = `EMI: ₹${Math.round(emi).toLocaleString('en-IN')}<br>ब्याज: ₹${Math.round(total - p).toLocaleString('en-IN')}<br>कुल भुगतान: ₹${Math.round(total).toLocaleString('en-IN')}`;
         document.getElementById('loanResult').style.display = 'block';
     }
 
@@ -602,7 +633,7 @@
         let years = (parseFloat(document.getElementById('fdYears').value) || 0) + ((parseFloat(document.getElementById('fdMonths').value) || 0) / 12) + ((parseFloat(document.getElementById('fdDays').value) || 0) / 365);
         if(isNaN(p) || isNaN(ar) || years <= 0) { alert("सही जानकारी भरें!"); return; }
         let maturity = p * Math.pow((1 + ar / 100), years);
-        document.getElementById('fdOutputText').innerHTML = `कुल ब्याज / Total Interest: ₹${Math.round(maturity - p).toLocaleString('en-IN')}<br>परिपक्वता (Maturity): ₹${Math.round(maturity).toLocaleString('en-IN')}`;
+        document.getElementById('fdOutputText').innerHTML = `ब्याज: ₹${Math.round(maturity - p).toLocaleString('en-IN')}<br>कुल राशि: ₹${Math.round(maturity).toLocaleString('en-IN')}`;
         document.getElementById('fdResult').style.display = 'block';
     }
 
@@ -613,8 +644,8 @@
         let rate = parseFloat(document.getElementById('dRate').value) || 0;
         if(isNaN(km) || isNaN(litre) || litre <= 0) { alert("सही मान भरें!"); return; }
         let avg = (km / litre).toFixed(2);
-        let cost = rate > 0 ? `<br>कुल खर्च / Total Cost: ₹${Math.round(litre * rate).toLocaleString('en-IN')}` : '';
-        document.getElementById('dieselOutputText').innerHTML = `एवरेज / Mileage: ${avg} किमी/लीटर (km/l)${cost}`;
+        let cost = rate > 0 ? `<br>खर्च: ₹${Math.round(litre * rate).toLocaleString('en-IN')}` : '';
+        document.getElementById('dieselOutputText').innerHTML = `एवरेज: ${avg} km/l${cost}`;
         document.getElementById('dieselResult').style.display = 'block';
     }
 
@@ -625,7 +656,7 @@
         let hours = parseFloat(document.getElementById('lHours').value) || 0;
         if(isNaN(wage) || (days <= 0 && hours <= 0)) { alert("सही विवरण भरें!"); return; }
         let total = (wage * days) + ((wage / 8) * hours);
-        document.getElementById('laborOutputText').innerHTML = `कुल मजदूरी / Total Wages: ₹${Math.round(total).toLocaleString('en-IN')}`;
+        document.getElementById('laborOutputText').innerHTML = `कुल मजदूरी: ₹${Math.round(total).toLocaleString('en-IN')}`;
         document.getElementById('laborResult').style.display = 'block';
     }
 
@@ -637,7 +668,7 @@
         if(isNaN(liters) || isNaN(rate) || isNaN(days)) { alert("सभी खाने भरें!"); return; }
         let totalLiters = liters * days;
         let totalAmount = totalLiters * rate;
-        document.getElementById('milkOutputText').innerHTML = `कुल दूध / Total Milk: ${totalLiters} Litres<br>कुल भुगतान / Total Payment: ₹${Math.round(totalAmount).toLocaleString('en-IN')}`;
+        document.getElementById('milkOutputText').innerHTML = `कुल दूध: ${totalLiters} L<br>कुल भुगतान: ₹${Math.round(totalAmount).toLocaleString('en-IN')}`;
         document.getElementById('milkResult').style.display = 'block';
     }
 
@@ -651,8 +682,8 @@
         let d = today.getDate() - birth.getDate();
         if (d < 0) { m--; d += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
         if (m < 0) { y--; m += 12; }
-        const daysOfWeek = ["रविवार (Sunday)", "सोमवार (Monday)", "मंगलवार (Tuesday)", "बुधवार (Wednesday)", "वीरवार (Thursday)", "शुक्रवार (Friday)", "शनिवार (Saturday)"];
-        document.getElementById('ageOutputText').innerHTML = `उम्र / Age: ${y} Years, ${m} Months, ${d} Days<br>वार / Day: ${daysOfWeek[birth.getDay()]}`;
+        const daysOfWeek = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "वीरवार", "शुक्रवार", "शनिवार"];
+        document.getElementById('ageOutputText').innerHTML = `उम्र: ${y} वर्ष, ${m} माह, ${d} दिन<br>वार: ${daysOfWeek[birth.getDay()]}`;
         document.getElementById('ageResult').style.display = 'block';
     }
 </script>

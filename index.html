@@ -49,6 +49,9 @@
         .section.active { display: block; }
         
         .back-menu-btn { background: #f0f0f0; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; color: #555; cursor: pointer; margin-bottom: 10px; }
+        
+        .reset-btn { width: 100%; padding: 10px; background-color: #c62828; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .reset-btn:active { background-color: #b71c1c; }
 
         .form-group { margin-bottom: 10px; }
         label { display: block; margin-bottom: 3px; font-weight: 600; font-size: 12px; color: #555; }
@@ -64,9 +67,6 @@
         .cash-table { width: 100%; font-size: 12px; margin-bottom: 8px; border-collapse: collapse; }
         .cash-table th, .cash-table td { padding: 6px; text-align: center; border-bottom: 1px solid #ddd; }
         .cash-table th { background: #e8f5e9; color: #2e7d32; }
-
-        .reset-cash-btn { background: #c62828; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px; }
-        .reset-cash-btn:active { background: #b71c1c; }
 
         #calcScreen { width: 100%; height: 50px; font-size: 20px; text-align: right; margin-bottom: 8px; padding: 5px; background: #fff; }
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
@@ -129,16 +129,16 @@
     <!-- कैश काउंटर -->
     <div id="cash-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <button class="reset-cash-btn" onclick="resetCashCounter()">🔄 सब जीरो करें (Reset All)</button>
+        <button class="reset-btn" onclick="resetCashForm()">🔄 Reset All</button>
         <table class="cash-table">
             <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
-            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="0" oninput="validateNumber(this); calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="0" oninput="validateNumber(this); calculateCash()" placeholder="कुल सिक्के"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="" placeholder="कुल सिक्के" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>खुलें पैसे (₹)</td><td><input type="text" id="loosePaisa" value="0." oninput="handleLoosePaisa(this)" onkeydown="preventDeleteDot(event)"></td><td id="looseSub">0.00</td></tr>
         </table>
         <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
@@ -301,6 +301,14 @@
 <script>
     let currentLang = 'hi';
 
+    // Restore section on page load
+    window.onload = function() {
+        let savedSection = localStorage.getItem('activeSection');
+        if (savedSection && savedSection !== 'menu') {
+            openSection(savedSection, true);
+        }
+    };
+
     function toggleLanguage() {
         currentLang = currentLang === 'hi' ? 'en' : 'hi';
         document.getElementById('langBtn').innerText = currentLang === 'hi' ? 'ENGLISH' : 'हिंदी';
@@ -318,36 +326,50 @@
         });
     }
 
-    function openSection(secName) {
+    function openSection(secName, skipHistory = false) {
         document.getElementById('main-menu').style.display = 'none';
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(secName + '-section').classList.add('active');
-        history.pushState({section: secName}, "", "#" + secName);
+        let targetSec = document.getElementById(secName + '-section');
+        if(targetSec) {
+            targetSec.classList.add('active');
+            localStorage.setItem('activeSection', secName);
+            if (!skipHistory) {
+                history.pushState({section: secName}, "", "#" + secName);
+            }
+        }
     }
 
     function goBackMenu() {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
         document.getElementById('main-menu').style.display = 'flex';
+        localStorage.setItem('activeSection', 'menu');
         history.pushState({section: 'menu'}, "", window.location.pathname);
     }
 
-    // Handle browser back button smoothly
     window.onpopstate = function(event) {
         if (event.state && event.state.section && event.state.section !== 'menu') {
-            openSection(event.state.section);
+            openSection(event.state.section, true);
         } else {
             document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('main-menu').style.display = 'flex';
+            localStorage.setItem('activeSection', 'menu');
         }
     };
 
-    function validateNumber(input) {
-        if (input.value === "" || isNaN(input.value)) {
-            input.value = "0";
-        }
+    // Reset cash form function
+    function resetCashForm() {
+        document.querySelectorAll('.cash-qty').forEach(input => {
+            input.value = '';
+        });
+        document.querySelectorAll('.cash-sub').forEach(td => {
+            td.innerText = '0';
+        });
+        document.getElementById('loosePaisa').value = '0.';
+        document.getElementById('looseSub').innerText = '0.00';
+        document.getElementById('totalCashText').innerText = '₹ 0';
     }
 
-    // Lock 0. so user cannot delete the dot or zero
+    // Lock 0. so user cannot delete the dot or zero in loose paisa
     function handleLoosePaisa(input) {
         let val = input.value;
         if (!val.startsWith("0.")) {
@@ -357,16 +379,9 @@
 
     function preventDeleteDot(event) {
         let input = event.target;
-        // Prevent deleting '0.' if cursor is at position 0 or 1 when pressing Backspace
         if (event.key === "Backspace" && input.selectionStart <= 2 && input.selectionEnd <= 2) {
             event.preventDefault();
         }
-    }
-
-    function resetCashCounter() {
-        document.querySelectorAll('.cash-qty').forEach(input => input.value = "0");
-        document.getElementById('loosePaisa').value = "0.";
-        calculateCash();
     }
 
     function clcAppend(val) { document.getElementById('calcScreen').value += val; }

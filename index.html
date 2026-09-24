@@ -57,16 +57,16 @@
     <!-- Main Menu List -->
     <div id="main-menu" class="menu-list">
         <button class="menu-btn primary" onclick="openSection('simple-calc')">🧮 साधारण कैलकुलेटर (Simple Calc) <span>➔</span></button>
+        <button class="menu-btn primary" onclick="openSection('item-rate')">⚖️ सामान का भाव (Rate / Weight Calc) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('land')">🌾 जमीन माप <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('cash')">💵 कैश काउंटर (नोट व सिक्के) <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('interest')">💰 देसी ब्याज (महीने/दिन) <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('cash')">💵 कैश काउंटर <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('interest')">💰 देसी ब्याज <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('weight')">⚖️ वजन और दूरी <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('loan')">🏦 बैंक लोन (EMI) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('fd')">📈 FD ब्याज <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('diesel')">🚜 डीजल / एवरेज <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('labor')">🧱 मजदूरी / दिहाड़ी <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('milk')">🥛 दूध का हिसाब <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('discount')">🏷️ छूट (Discount) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('age')">⏳ उम्र और वार <span>➔</span></button>
     </div>
 
@@ -96,6 +96,39 @@
         </div>
     </div>
 
+    <!-- 0.1 सामान का भाव कैलकुलेटर -->
+    <div id="item-rate-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>भाव (₹ कितने रुपये का):</label><input type="number" id="itemPrice" placeholder="जैसे: 100"></div>
+        <div class="row">
+            <div class="form-group"><label>कितनी मात्रा का:</label><input type="number" id="itemQty" value="1" placeholder="1"></div>
+            <div class="form-group"><label>इकाई:</label>
+                <select id="itemUnit">
+                    <option value="kg">किलोग्राम (Kg)</option>
+                    <option value="gram">ग्राम (Gram)</option>
+                    <option value="litre">लीटर (Litre)</option>
+                    <option value="piece">नग / पीस (Piece)</option>
+                </select>
+            </div>
+        </div>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
+        <p style="font-size: 12px; font-weight: bold; color: #2e7d32; margin-bottom: 6px;">पड़ਤाल (क्या निकालना है?):</p>
+        <div class="row">
+            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500 (ग्राम में या किलो में)"></div>
+            <div class="form-group"><label>इकाई चुनें:</label>
+                <select id="checkWeightUnit">
+                    <option value="gram">ग्राम (Gram)</option>
+                    <option value="kg">किलोग्राम (Kg)</option>
+                    <option value="ml">मिलीलीटर (Ml)</option>
+                    <option value="piece">पीस</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50 (रुपये)"></div>
+        <button class="calc-btn" onclick="calculateItemRate()">हिساب देखें</button>
+        <div class="result-box" id="itemResult" style="display:none;"><h3>नतीजा:</h3><p id="itemOutputText"></p></div>
+    </div>
+
     <!-- 1. जमीन -->
     <div id="land-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
@@ -114,21 +147,19 @@
         <div class="result-box" id="landResult" style="display:none;"><h3>नतीजा:</h3><p id="landOutputText"></p></div>
     </div>
 
-    <!-- 2. कैश (नोट और सिक्के) -->
+    <!-- 2. कैश काउंटर -->
     <div id="cash-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <table class="cash-table">
             <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
-            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 5 नोट/सिक्का</td><td><input type="number" class="cash-qty" data-val="5" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 2 सिक्का</td><td><input type="number" class="cash-qty" data-val="2" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 1 सिक्का</td><td><input type="number" class="cash-qty" data-val="1" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" placeholder="0.00" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0</td></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="0" oninput="calculateCash()" placeholder="कुल सिक्के"></td><td class="cash-sub">0</td></tr>
+            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" value="0" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0.00</td></tr>
         </table>
         <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
@@ -226,16 +257,7 @@
         <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
     </div>
 
-    <!-- 10. छूट -->
-    <div id="discount-section" class="section">
-        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
-        <div class="form-group"><label>मूल कीमत (MRP ₹):</label><input type="number" id="discPrice" placeholder="1500"></div>
-        <div class="form-group"><label>छूट (% Discount):</label><input type="number" id="discPercent" placeholder="15"></div>
-        <button class="calc-btn" onclick="calculateDiscount()">छूट निकालें</button>
-        <div class="result-box" id="discountResult" style="display:none;"><h3>नतीजा:</h3><p id="discOutputText"></p></div>
-    </div>
-
-    <!-- 11. उम्र -->
+    <!-- 10. उम्र -->
     <div id="age-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="form-group"><label>जन्म तारीख:</label><input type="date" id="birthDate"></div>
@@ -264,6 +286,55 @@
     function clscEval() {
         try { document.getElementById('calcScreen').value = eval(document.getElementById('calcScreen').value); }
         catch(e) { alert("गलत हिसाब!"); }
+    }
+
+    // सामान का भाव कैलकुलेटर फंक्शन
+    function calculateItemRate() {
+        let price = parseFloat(document.getElementById('itemPrice').value);
+        let qty = parseFloat(document.getElementById('itemQty').value);
+        let unit = document.getElementById('itemUnit').value;
+
+        if(isNaN(price) || isNaN(qty) || qty <= 0) { alert("कृपया सही भाव और मात्रा भरें!"); return; }
+
+        // Base unit ko standard 1 unit (kg/litre/piece) mein convert karein
+        let baseRatePerUnit = price / qty; // Per 1 kg/litre/piece price
+
+        let cWeight = parseFloat(document.getElementById('checkWeight').value);
+        let cWeightUnit = document.getElementById('checkWeightUnit').value;
+        let cMoney = parseFloat(document.getElementById('checkMoney').value);
+
+        let outputText = `• आधार भाव: ₹${price} का ${qty} ${unit}<br>`;
+
+        if(!isNaN(cWeight) && cWeight > 0) {
+            let actualKgOrUnit = cWeight;
+            if(cWeightUnit === 'gram' || cWeightUnit === 'ml') {
+                actualKgOrUnit = cWeight / 1000;
+            }
+            let calculatedCost = baseRatePerUnit * actualKgOrUnit;
+            outputText += `• ${cWeight} ${cWeightUnit} का मूल्य: <b>₹${calculatedCost.toFixed(2)}</b><br>`;
+        }
+
+        if(!isNaN(cMoney) && cMoney > 0) {
+            let calculatedQty = cMoney / baseRatePerUnit;
+            let qtyDisplayText = calculatedQty.toFixed(3);
+            if(unit === 'kg' || unit === 'litre') {
+                if(calculatedQty < 1) {
+                    qtyDisplayText = `${(calculatedQty * 1000).toFixed(0)} ग्राम/मिलीलीटर`;
+                } else {
+                    qtyDisplayText = `${calculatedQty.toFixed(2)} ${unit}`;
+                }
+            } else {
+                qtyDisplayText = `${calculatedQty.toFixed(2)} ${unit}`;
+            }
+            outputText += `• ₹${cMoney} में मिलने वाली मात्रा: <b>${qtyDisplayText}</b>`;
+        }
+
+        if((isNaN(cWeight) || cWeight <= 0) && (isNaN(cMoney) || cMoney <= 0)) {
+            outputText += `• 1 ${unit} का भाव: ₹${baseRatePerUnit.toFixed(2)}`;
+        }
+
+        document.getElementById('itemOutputText').innerHTML = outputText;
+        document.getElementById('itemResult').style.display = 'block';
     }
 
     function calculateLand() {
@@ -362,16 +433,6 @@
         let totalAmount = totalLiters * rate;
         document.getElementById('milkOutputText').innerHTML = `कुल दूध: ${totalLiters} लीटर<br>कुल भुगतान: ₹${Math.round(totalAmount).toLocaleString('en-IN')}`;
         document.getElementById('milkResult').style.display = 'block';
-    }
-
-    function calculateDiscount() {
-        let price = parseFloat(document.getElementById('discPrice').value);
-        let percent = parseFloat(document.getElementById('discPercent').value);
-        if(isNaN(price) || isNaN(percent)) { alert("कीमत व छूट भरें!"); return; }
-        let discAmount = (price * percent) / 100;
-        let finalPrice = price - discAmount;
-        document.getElementById('discOutputText').innerHTML = `बचत: ₹${Math.round(discAmount)}<br>देने योग्य राशि: ₹${Math.round(finalPrice).toLocaleString('en-IN')}`;
-        document.getElementById('discountResult').style.display = 'block';
     }
 
     function calculateAge() {

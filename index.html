@@ -31,20 +31,19 @@
         
         .menu-list { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f9f9f9; border-bottom: 1px solid #ddd; }
         
-        /* Har button ke liye alag aur shandar color */
         .menu-btn { width: 100%; padding: 13px 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; color: white; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .btn-1 { background: #2e7d32; } /* Simple Calc */
-        .btn-2 { background: #00838f; } /* Cash Counter (2nd Position) */
-        .btn-3 { background: #558b2f; } /* Land */
-        .btn-4 { background: #ef6c00; } /* Interest */
-        .btn-5 { background: #4527a0; } /* Weight */
-        .btn-6 { background: #ad1457; } /* Loan */
-        .btn-7 { background: #6a1b9a; } /* FD */
-        .btn-8 { background: #0277bd; } /* Diesel */
-        .btn-9 { background: #37474f; } /* Labor */
-        .btn-10 { background: #00695c; } /* Milk */
-        .btn-11 { background: #c62828; } /* Age */
-        .btn-12 { background: #827717; } /* Item Rate (Last Position) */
+        .btn-1 { background: #2e7d32; }
+        .btn-2 { background: #00838f; }
+        .btn-3 { background: #558b2f; }
+        .btn-4 { background: #ef6c00; }
+        .btn-5 { background: #4527a0; }
+        .btn-6 { background: #ad1457; }
+        .btn-7 { background: #6a1b9a; }
+        .btn-8 { background: #0277bd; }
+        .btn-9 { background: #37474f; }
+        .btn-10 { background: #00695c; }
+        .btn-11 { background: #c62828; }
+        .btn-12 { background: #827717; }
 
         .section { padding: 12px; display: none; }
         .section.active { display: block; }
@@ -66,7 +65,6 @@
         .cash-table th, .cash-table td { padding: 6px; text-align: center; border-bottom: 1px solid #ddd; }
         .cash-table th { background: #e8f5e9; color: #2e7d32; }
 
-        /* Simple Calculator Keypad */
         #calcScreen { width: 100%; height: 50px; font-size: 20px; text-align: right; margin-bottom: 8px; padding: 5px; background: #fff; }
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .calc-key { padding: 12px; font-size: 16px; font-weight: bold; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 6px; cursor: pointer; text-align: center; color: #2e7d32; }
@@ -84,7 +82,6 @@
         <p id="appSub">जमीन, ब्याज, वजन, कैश, लोन, FD और टूल्स</p>
     </header>
 
-    <!-- Main Menu List (Cash Counter at 2nd, Item Rate at Last) -->
     <div id="main-menu" class="menu-list">
         <button class="menu-btn btn-1" onclick="openSection('simple-calc')"><span data-hi="🧮 साधारण कैलकुलेटर" data-en="🧮 Simple Calculator">🧮 साधारण कैलकुलेटर</span> <span>➔</span></button>
         <button class="menu-btn btn-2" onclick="openSection('cash')"><span data-hi="💵 कैश काउंटर" data-en="💵 Cash Counter">💵 कैश काउंटर</span> <span>➔</span></button>
@@ -100,7 +97,7 @@
         <button class="menu-btn btn-12" onclick="openSection('item-rate')"><span data-hi="⚖️ सामान का भाव" data-en="⚖️ Item Rate / Weight">⚖️ सामान का भाव</span> <span>➔</span></button>
     </div>
 
-    <!-- 0. साधारण कैलकुलेटर -->
+    <!-- साधारण कैलकुलेटर -->
     <div id="simple-calc-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <input type="text" id="calcScreen" readonly placeholder="0">
@@ -126,7 +123,7 @@
         </div>
     </div>
 
-    <!-- 2. कैश काउंटर -->
+    <!-- कैश काउंटर (यहाँ 0. सेट कर दिया है) -->
     <div id="cash-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <table class="cash-table">
@@ -138,12 +135,12 @@
             <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="0" oninput="calculateCash()" placeholder="कुल सिक्के"></td><td class="cash-sub">0</td></tr>
-            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" value="0.00" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0.00</td></tr>
+            <tr><td>खुलें पैसे (₹)</td><td><input type="text" id="loosePaisa" value="0." oninput="calculateCash()"></td><td id="looseSub">0.00</td></tr>
         </table>
         <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
 
-    <!-- 1. जमीन -->
+    <!-- जमीन माप -->
     <div id="land-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
@@ -161,7 +158,7 @@
         <div class="result-box" id="landResult" style="display:none;"><h3>नतीजा:</h3><p id="landOutputText"></p></div>
     </div>
 
-    <!-- 3. ब्याज -->
+    <!-- देसी ब्याज -->
     <div id="interest-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>मूलधन (₹) / Principal:</label><input type="number" id="principal" placeholder="50000"></div>
@@ -174,7 +171,7 @@
         <div class="result-box" id="interestResult" style="display:none;"><h3>नतीजा:</h3><p id="interestOutputText"></p></div>
     </div>
 
-    <!-- 4. वजन -->
+    <!-- वजन और दूरी -->
     <div id="weight-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
@@ -194,7 +191,7 @@
         <div class="result-box" id="weightResult" style="display:none;"><h3>नतीजा:</h3><p id="weightOutputText"></p></div>
     </div>
 
-    <!-- 5. लोन -->
+    <!-- बैंक लोन -->
     <div id="loan-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>लोन राशि (₹) / Loan Amount:</label><input type="number" id="loanAmount" placeholder="200000"></div>
@@ -208,7 +205,7 @@
         <div class="result-box" id="loanResult" style="display:none;"><h3>नतीजा:</h3><p id="loanOutputText"></p></div>
     </div>
 
-    <!-- 6. FD -->
+    <!-- FD ब्याज -->
     <div id="fd-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>FD मूलधन (₹) / FD Amount:</label><input type="number" id="fdAmount" placeholder="100000"></div>
@@ -222,7 +219,7 @@
         <div class="result-box" id="fdResult" style="display:none;"><h3>नतीजा:</h3><p id="fdOutputText"></p></div>
     </div>
 
-    <!-- 7. डीजल -->
+    <!-- डीजल / एवरेज -->
     <div id="diesel-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150"></div>
@@ -232,7 +229,7 @@
         <div class="result-box" id="dieselResult" style="display:none;"><h3>नतीजा:</h3><p id="dieselOutputText"></p></div>
     </div>
 
-    <!-- 8. मजदूरी -->
+    <!-- मजदूरी / दिहाड़ी -->
     <div id="labor-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>एक दिन की दिहाड़ी (₹) / Daily Wage:</label><input type="number" id="lWage" placeholder="500"></div>
@@ -244,7 +241,7 @@
         <div class="result-box" id="laborResult" style="display:none;"><h3>नतीजा:</h3><p id="laborOutputText"></p></div>
     </div>
 
-    <!-- 9. दूध -->
+    <!-- दूध का हिसाब -->
     <div id="milk-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>प्रतिदिन दूध (Litre) / Daily Milk:</label><input type="number" id="mLiters" placeholder="5" step="0.5"></div>
@@ -254,7 +251,7 @@
         <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
     </div>
 
-    <!-- 10. उम्र -->
+    <!-- उम्र और वार -->
     <div id="age-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>जन्म तारीख / Birth Date:</label><input type="date" id="birthDate"></div>
@@ -262,7 +259,7 @@
         <div class="result-box" id="ageResult" style="display:none;"><h3>नतीजा:</h3><p id="ageOutputText"></p></div>
     </div>
 
-    <!-- 11. सामान का भाव (Last Position) -->
+    <!-- सामान का भाव -->
     <div id="item-rate-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100"></div>
@@ -328,7 +325,6 @@
         document.getElementById('main-menu').style.display = 'flex';
     }
 
-    // साधारण कैलकुलेटर फंक्शन्स
     function clcAppend(val) { document.getElementById('calcScreen').value += val; }
     function clcClear() { document.getElementById('calcScreen').value = ''; }
     function clcDel() { let s = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value = s.substring(0, s.length - 1); }
@@ -337,7 +333,6 @@
         catch(e) { alert("गलत हिसाब! / Invalid calculation!"); }
     }
 
-    // सामान का भाव कैलकुलेटर फंक्शन
     function calculateItemRate() {
         let price = parseFloat(document.getElementById('itemPrice').value);
         let qty = parseFloat(document.getElementById('itemQty').value);
@@ -402,7 +397,8 @@
             input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
             total += sub;
         });
-        let loose = parseFloat(document.getElementById('loosePaisa').value) || 0;
+        let looseVal = document.getElementById('loosePaisa').value;
+        let loose = parseFloat(looseVal) || 0;
         document.getElementById('looseSub').innerText = loose.toFixed(2);
         total += loose;
         document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});

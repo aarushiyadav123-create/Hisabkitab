@@ -8,28 +8,32 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: #f4f7f6; color: #333; padding: 10px; }
         .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
-        header { background-color: #2e7d32; color: white; text-align: center; padding: 12px; }
-        header h1 { font-size: 20px; margin-bottom: 2px; }
-        header p { font-size: 12px; opacity: 0.9; }
-        .tabs { display: flex; background: #e8f5e9; overflow-x: auto; padding: 6px; border-bottom: 1px solid #ddd; white-space: nowrap; }
-        .tabs::-webkit-scrollbar { height: 4px; }
-        .tabs::-webkit-scrollbar-thumb { background: #a5d6a7; border-radius: 4px; }
-        .tab-btn { padding: 8px 12px; background: none; border: none; font-weight: bold; font-size: 13px; color: #2e7d32; cursor: pointer; border-radius: 6px; margin: 0 3px; flex-shrink: 0; transition: 0.2s; }
-        .tab-btn.active { background: #2e7d32; color: white; }
-        .section { padding: 15px; display: none; }
+        header { background-color: #2e7d32; color: white; text-align: center; padding: 10px; }
+        header h1 { font-size: 18px; margin-bottom: 2px; }
+        header p { font-size: 11px; opacity: 0.9; }
+        
+        .menu-list { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: #e8f5e9; border-bottom: 1px solid #ddd; }
+        .menu-btn { width: 100%; padding: 10px 12px; background: #ffffff; border: 1px solid #c8e6c9; border-radius: 8px; font-weight: bold; font-size: 13px; color: #2e7d32; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .menu-btn:hover { background: #2e7d32; color: white; }
+
+        .section { padding: 12px; display: none; }
         .section.active { display: block; }
-        .form-group { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 13px; color: #555; }
-        input, select { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        button.calc-btn { width: 100%; padding: 11px; background-color: #2e7d32; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        button.calc-btn:hover { background-color: #1b5e20; }
-        .result-box { margin-top: 15px; padding: 12px; background: #f1f8e9; border-left: 4px solid #2e7d32; border-radius: 4px; }
-        .result-box h3 { font-size: 14px; color: #2e7d32; margin-bottom: 4px; }
-        .result-box p { font-size: 14px; font-weight: bold; color: #333; line-height: 1.5; }
-        .row { display: flex; gap: 10px; }
+        
+        .back-menu-btn { background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; color: #555; cursor: pointer; margin-bottom: 10px; }
+
+        .form-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 3px; font-weight: 600; font-size: 12px; color: #555; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+        button.calc-btn { width: 100%; padding: 10px; background-color: #2e7d32; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 4px; }
+        
+        .result-box { margin-top: 12px; padding: 10px; background: #f1f8e9; border-left: 4px solid #2e7d32; border-radius: 4px; }
+        .result-box h3 { font-size: 13px; color: #2e7d32; margin-bottom: 3px; }
+        .result-box p { font-size: 13px; font-weight: bold; color: #333; line-height: 1.4; }
+        .row { display: flex; gap: 8px; }
         .row .form-group { flex: 1; }
-        .cash-table { width: 100%; font-size: 13px; margin-bottom: 10px; border-collapse: collapse; }
-        .cash-table th, .cash-table td { padding: 6px; text-align: center; border-bottom: 1px solid #ddd; }
+        
+        .cash-table { width: 100%; font-size: 12px; margin-bottom: 8px; border-collapse: collapse; }
+        .cash-table th, .cash-table td { padding: 5px; text-align: center; border-bottom: 1px solid #ddd; }
         .cash-table th { background: #e8f5e9; color: #2e7d32; }
     </style>
 </head>
@@ -38,46 +42,47 @@
 <div class="container">
     <header>
         <h1>HisabKitab (हिसाब-किताब)</h1>
-        <p>जमीन, ब्याज, वजन, कैश, लोन और उम्र टूल</p>
+        <p>जमीन, ब्याज, वजन, कैश, लोन, FD, मजदूरी और दूध टूल</p>
     </header>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('land')">🌾 जमीन माप</button>
-        <button class="tab-btn" onclick="switchTab('cash')">💵 कैश काउंटर</button>
-        <button class="tab-btn" onclick="switchTab('interest')">💰 देसी ब्याज</button>
-        <button class="tab-btn" onclick="switchTab('weight')">⚖️ वजन/दूरी</button>
-        <button class="tab-btn" onclick="switchTab('loan')">🏦 बैंक लोन</button>
-        <button class="tab-btn" onclick="switchTab('age')">⏳ उम्र & वार</button>
+    <!-- Main Menu List -->
+    <div id="main-menu" class="menu-list">
+        <button class="menu-btn" onclick="openSection('land')">🌾 जमीन माप <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('cash')">💵 कैश काउंटर <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('interest')">💰 देसी ब्याज (महीने/दिन) <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('weight')">⚖️ वजन और दूरी <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('loan')">🏦 बैंक लोन (EMI) <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('fd')">📈 FD ब्याज <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('diesel')">🚜 डीजल / एवरेज <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('labor')">🧱 मजदूरी / दिहाड़ी <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('milk')">🥛 दूध का हिसाब <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('discount')">🏷️ छूट (Discount) <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('age')">⏳ उम्र और वार <span>➔</span></button>
     </div>
 
-    <!-- 1. जमीन कैलकुलेटर -->
-    <div id="land-section" class="section active">
+    <!-- 1. जमीन -->
+    <div id="land-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="row">
-            <div class="form-group">
-                <label>मात्रा दर्ज करें:</label>
-                <input type="number" id="landInput" placeholder="जैसे: 1 या 500">
-            </div>
-            <div class="form-group">
-                <label>इकाई चुनें:</label>
+            <div class="form-group"><label>मात्रा:</label><input type="number" id="landInput" placeholder="जैसे: 1"></div>
+            <div class="form-group"><label>इकाई:</label>
                 <select id="landUnit">
-                    <option value="gaj">गज (Sq Yard)</option>
+                    <option value="gaj">गज</option>
                     <option value="killa">किल्ला / एकड़</option>
                     <option value="kanal">कनाल</option>
                     <option value="marla">मरला</option>
                 </select>
             </div>
         </div>
-        <button class="calc-btn" onclick="calculateLand()">हिसाब देखें</button>
-        <div class="result-box" id="landResult" style="display:none;">
-            <h3>सटीक हिसाब:</h3>
-            <p id="landOutputText"></p>
-        </div>
+        <button class="calc-btn" onclick="calculateLand()">हिساب देखें</button>
+        <div class="result-box" id="landResult" style="display:none;"><h3>नतीजा:</h3><p id="landOutputText"></p></div>
     </div>
 
-    <!-- 2. कैश काउंटर कैलकुलेटर -->
+    <!-- 2. कैश -->
     <div id="cash-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <table class="cash-table">
-            <tr><th>नोट</th><th>संख्या (Qty)</th><th>Amount</th></tr>
+            <tr><th>नोट</th><th>संख्या</th><th>रुपये</th></tr>
             <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
@@ -85,175 +90,249 @@
             <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
         </table>
-        <div class="result-box" style="margin-top: 5px; background: #e8f5e9;">
-            <h3>कुल कैश (Total Cash):</h3>
-            <p id="totalCashText" style="font-size: 18px; color: #1b5e20;">₹ 0</p>
-        </div>
+        <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
 
-    <!-- 3. देसी ब्याज कैलकुलेटर (महीने और दिन दोनों) -->
+    <!-- 3. ब्याज -->
     <div id="interest-section" class="section">
-        <div class="form-group"><label>मूलधन (रुपये):</label><input type="number" id="principal" placeholder="50000"></div>
-        <div class="form-group"><label>ब्याज दर (रु सैकड़ा महीना):</label><input type="number" id="rate" placeholder="2" step="0.5"></div>
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>मूलधन (₹):</label><input type="number" id="principal" placeholder="50000"></div>
+        <div class="form-group"><label>ब्याज दर (रु सैकड़ा/महीना):</label><input type="number" id="rate" placeholder="2" step="0.5"></div>
         <div class="row">
-            <div class="form-group"><label>समय (महीने):</label><input type="number" id="months" placeholder="0"></div>
-            <div class="form-group"><label>समय (दिन):</label><input type="number" id="days" placeholder="0"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="months" placeholder="0"></div>
+            <div class="form-group"><label>दिन:</label><input type="number" id="days" placeholder="0"></div>
         </div>
-        <button class="calc-btn" onclick="calculateInterest()">ब्याज निकालो</button>
-        <div class="result-box" id="interestResult" style="display:none;">
-            <h3>नतीजा:</h3><p id="interestOutputText"></p>
-        </div>
+        <button class="calc-btn" onclick="calculateInterest()">ब्याज निकालें</button>
+        <div class="result-box" id="interestResult" style="display:none;"><h3>नतीजा:</h3><p id="interestOutputText"></p></div>
     </div>
 
-    <!-- 4. वजन और दूरी (Kilometers) कैलकुलेटर -->
+    <!-- 4. वजन -->
     <div id="weight-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="row">
             <div class="form-group"><label>मात्रा:</label><input type="number" id="wtInput" placeholder="5"></div>
-            <div class="form-group"><label>बदलाव चुनें:</label>
+            <div class="form-group"><label>बदलाव:</label>
                 <select id="wtType">
-                    <option value="man_to_kg">मन से किलो (1 मन = 40 किलो)</option>
+                    <option value="man_to_kg">मन से किलो</option>
                     <option value="kg_to_man">किलो से मन</option>
-                    <option value="quintal_to_kg">क्विंटल से किलो (1 क्विंटल = 100 किलो)</option>
+                    <option value="quintal_to_kg">क्विंटल से किलो</option>
                     <option value="kg_to_g">किलो से ग्राम</option>
-                    <option value="km_to_m">किलोमीटर से मीटर (1 किमी = 1000 मीटर)</option>
-                    <option value="m_to_km">मीटर से किलोमीटर</option>
+                    <option value="km_to_m">किमी से मीटर</option>
+                    <option value="m_to_km">मीटर से किमी</option>
                 </select>
             </div>
         </div>
-        <button class="calc-btn" onclick="calculateWeight()">बदलो</button>
-        <div class="result-box" id="weightResult" style="display:none;"><h3>परिणाम:</h3><p id="weightOutputText"></p></div>
+        <button class="calc-btn" onclick="calculateWeight()">बदलें</button>
+        <div class="result-box" id="weightResult" style="display:none;"><h3>नतीजा:</h3><p id="weightOutputText"></p></div>
     </div>
 
-    <!-- 5. bank loan (EMI) -->
+    <!-- 5. लोन -->
     <div id="loan-section" class="section">
-        <div class="form-group"><label>लोन राशि (रुपये):</label><input type="number" id="loanAmount" placeholder="200000"></div>
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>लोन राशि (₹):</label><input type="number" id="loanAmount" placeholder="200000"></div>
+        <div class="form-group"><label>ब्याज दर (% सालाना):</label><input type="number" id="loanRate" placeholder="10" step="0.1"></div>
         <div class="row">
-            <div class="form-group"><label>ब्याज दर (% सालाना):</label><input type="number" id="loanRate" placeholder="10" step="0.1"></div>
-            <div class="form-group"><label>समय (साल):</label><input type="number" id="loanYears" placeholder="3"></div>
+            <div class="form-group"><label>साल:</label><input type="number" id="loanYears" placeholder="0"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="loanMonths" placeholder="0"></div>
         </div>
-        <button class="calc-btn" onclick="calculateLoan()">EMI निकालो</button>
-        <div class="result-box" id="loanResult" style="display:none;"><h3>लोन हिसाब:</h3><p id="loanOutputText"></p></div>
+        <div class="form-group"><label>दिन:</label><input type="number" id="loanDays" placeholder="0"></div>
+        <button class="calc-btn" onclick="calculateLoan()">EMI निकालें</button>
+        <div class="result-box" id="loanResult" style="display:none;"><h3>नतीजा:</h3><p id="loanOutputText"></p></div>
     </div>
 
-    <!-- 6. उम्र और वार कैलकुलेटर -->
+    <!-- 6. FD -->
+    <div id="fd-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>FD मूलधन (₹):</label><input type="number" id="fdAmount" placeholder="100000"></div>
+        <div class="form-group"><label>ब्याज दर (% सालाना):</label><input type="number" id="fdRate" placeholder="6.5" step="0.1"></div>
+        <div class="row">
+            <div class="form-group"><label>साल:</label><input type="number" id="fdYears" placeholder="0"></div>
+            <div class="form-group"><label>महीने:</label><input type="number" id="fdMonths" placeholder="0"></div>
+        </div>
+        <div class="form-group"><label>दिन:</label><input type="number" id="fdDays" placeholder="0"></div>
+        <button class="calc-btn" onclick="calculateFD()">FD हिसाब</button>
+        <div class="result-box" id="fdResult" style="display:none;"><h3>नतीजा:</h3><p id="fdOutputText"></p></div>
+    </div>
+
+    <!-- 7. डीजल / एवरेज -->
+    <div id="diesel-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150"></div>
+        <div class="form-group"><label>खर्च डीजल (Litre):</label><input type="number" id="dLitre" placeholder="10"></div>
+        <div class="form-group"><label>डीजल भाव (₹ प्रति लीटर):</label><input type="number" id="dRate" placeholder="90"></div>
+        <button class="calc-btn" onclick="calculateDiesel()">एवरेज निकालें</button>
+        <div class="result-box" id="dieselResult" style="display:none;"><h3>नतीजा:</h3><p id="dieselOutputText"></p></div>
+    </div>
+
+    <!-- 8. मजदूरी -->
+    <div id="labor-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>एक दिन की दिहाड़ी (₹):</label><input type="number" id="lWage" placeholder="500"></div>
+        <div class="row">
+            <div class="form-group"><label>कुल दिन:</label><input type="number" id="lDays" placeholder="12"></div>
+            <div class="form-group"><label>घंटे (Optional):</label><input type="number" id="lHours" placeholder="0"></div>
+        </div>
+        <button class="calc-btn" onclick="calculateLabor()">मजदूरी हिसाब</button>
+        <div class="result-box" id="laborResult" style="display:none;"><h3>नतीजा:</h3><p id="laborOutputText"></p></div>
+    </div>
+
+    <!-- 9. दूध का हिसाब -->
+    <div id="milk-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>प्रतिदिन दूध (Litre):</label><input type="number" id="mLiters" placeholder="5" step="0.5"></div>
+        <div class="form-group"><label>भाव (₹ प्रति लीटर):</label><input type="number" id="mRate" placeholder="60"></div>
+        <div class="form-group"><label>कुल दिन:</label><input type="number" id="mDays" placeholder="30"></div>
+        <button class="calc-btn" onclick="calculateMilk()">दूध हिसाब</button>
+        <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
+    </div>
+
+    <!-- 10. छूट (Discount) -->
+    <div id="discount-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>मूल कीमत (MRP ₹):</label><input type="number" id="discPrice" placeholder="1500"></div>
+        <div class="form-group"><label>छूट (% Discount):</label><input type="number" id="discPercent" placeholder="15"></div>
+        <button class="calc-btn" onclick="calculateDiscount()">छूट निकालें</button>
+        <div class="result-box" id="discountResult" style="display:none;"><h3>नतीजा:</h3><p id="discOutputText"></p></div>
+    </div>
+
+    <!-- 11. उम्र और वार -->
     <div id="age-section" class="section">
-        <div class="form-group"><label>अपनी जन्म तारीख चुनें:</label><input type="date" id="birthDate"></div>
-        <button class="calc-btn" onclick="calculateAge()">उम्र और वार निकालो</button>
-        <div class="result-box" id="ageResult" style="display:none;"><h3>परिणाम:</h3><p id="ageOutputText"></p></div>
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <div class="form-group"><label>जन्म तारीख:</label><input type="date" id="birthDate"></div>
+        <button class="calc-btn" onclick="calculateAge()">उम्र निकालें</button>
+        <div class="result-box" id="ageResult" style="display:none;"><h3>नतीजा:</h3><p id="ageOutputText"></p></div>
     </div>
 
 </div>
 
 <script>
-    function switchTab(tabName) {
+    function openSection(secName) {
+        document.getElementById('main-menu').style.display = 'none';
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        const mapping = {'land': 0, 'cash': 1, 'interest': 2, 'weight': 3, 'loan': 4, 'age': 5};
-        document.getElementById(tabName + '-section').classList.add('active');
-        document.querySelectorAll('.tab-btn')[mapping[tabName]].classList.add('active');
+        document.getElementById(secName + '-section').classList.add('active');
     }
 
-    // जमीन कैलकुलेशन
+    function goBackMenu() {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById('main-menu').style.display = 'flex';
+    }
+
     function calculateLand() {
         let val = parseFloat(document.getElementById('landInput').value);
         let unit = document.getElementById('landUnit').value;
         if(isNaN(val) || val <= 0) { alert("सही अंक भरें!"); return; }
-
-        let gaj = 0;
-        if(unit === 'gaj') gaj = val;
-        else if(unit === 'killa') gaj = val * 4840;
-        else if(unit === 'kanal') gaj = val * 605;
-        else if(unit === 'marla') gaj = val * 30.25;
-
-        let killa = gaj / 4840;
-        let kanal = gaj / 605;
-        let marla = gaj / 30.25;
-
-        let text = `• ${gaj.toLocaleString('en-IN')} गज (Sq Yard)<br>` +
-                   `• ${kanal.toFixed(2)} कनाल<br>` +
-                   `• ${marla.toFixed(2)} मरला<br>` +
-                   `• ${killa.toFixed(3)} किल्ला / एकड़`;
-
+        let gaj = unit === 'gaj' ? val : (unit === 'killa' ? val * 4840 : (unit === 'kanal' ? val * 605 : val * 30.25));
+        let text = `• ${gaj.toLocaleString('en-IN')} गज<br>• ${(gaj/605).toFixed(2)} कनाल<br>• ${(gaj/30.25).toFixed(2)} मरला<br>• ${(gaj/4840).toFixed(3)} किल्ला`;
         document.getElementById('landOutputText').innerHTML = text;
         document.getElementById('landResult').style.display = 'block';
     }
 
-    // कैश काउंटर
     function calculateCash() {
         let total = 0;
         document.querySelectorAll('.cash-qty').forEach(input => {
             let qty = parseFloat(input.value) || 0;
-            let val = parseFloat(input.dataset.val);
-            let sub = qty * val;
+            let sub = qty * parseFloat(input.dataset.val);
             input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
             total += sub;
         });
         document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN');
     }
 
-    // देसी ब्याज (महीने + दिन)
     function calculateInterest() {
         let p = parseFloat(document.getElementById('principal').value);
         let r = parseFloat(document.getElementById('rate').value);
         let m = parseFloat(document.getElementById('months').value) || 0;
         let d = parseFloat(document.getElementById('days').value) || 0;
-
-        if(isNaN(p) || isNaN(r)) { alert("मूलधन और ब्याज दर सही से भरें!"); return; }
-        
-        let totalMonths = m + (d / 30);
-        let totalInterest = (p * r * totalMonths) / 100;
-        let grandTotal = p + totalInterest;
-
-        document.getElementById('interestOutputText').innerHTML = `ब्याज: ₹${Math.round(totalInterest).toLocaleString('en-IN')}<br>कुल योग: ₹${Math.round(grandTotal).toLocaleString('en-IN')}`;
+        if(isNaN(p) || isNaN(r)) { alert("मूलधन व दर भरें!"); return; }
+        let interest = (p * r * (m + (d / 30))) / 100;
+        document.getElementById('interestOutputText').innerHTML = `ब्याज: ₹${Math.round(interest).toLocaleString('en-IN')}<br>कुल योग: ₹${Math.round(p + interest).toLocaleString('en-IN')}`;
         document.getElementById('interestResult').style.display = 'block';
     }
 
-    // वजन और दूरी (किलोमीटर)
     function calculateWeight() {
         let val = parseFloat(document.getElementById('wtInput').value);
         let type = document.getElementById('wtType').value;
         if(isNaN(val) || val <= 0) { alert("मात्रा भरें!"); return; }
-        let text = "";
-        if(type === 'man_to_kg') text = `${val} मन = ${(val * 40).toLocaleString('en-IN')} किलो`;
-        else if(type === 'kg_to_man') text = `${val} किलो = ${(val / 40).toFixed(2)} मन`;
-        else if(type === 'quintal_to_kg') text = `${val} क्विंटल = ${(val * 100).toLocaleString('en-IN')} किलो`;
-        else if(type === 'kg_to_g') text = `${val} किलो = ${(val * 1000).toLocaleString('en-IN')} gram`;
-        else if(type === 'km_to_m') text = `${val} किलोमीटर = ${(val * 1000).toLocaleString('en-IN')} मीटर`;
-        else if(type === 'm_to_km') text = `${val} मीटर = ${(val / 1000).toFixed(3)} किलोमीटर`;
-
+        let text = type === 'man_to_kg' ? `${val} मन = ${val * 40} किलो` : (type === 'kg_to_man' ? `${val} किलो = ${(val/40).toFixed(2)} मन` : (type === 'quintal_to_kg' ? `${val} क्विंटल = ${val*100} किलो` : (type === 'kg_to_g' ? `${val} किलो = ${val*1000} ग्राम` : (type === 'km_to_m' ? `${val} किमी = ${val*1000} मीटर` : `${val} मीटर = ${(val/1000).toFixed(3)} किमी`))));
         document.getElementById('weightOutputText').innerHTML = text;
         document.getElementById('weightResult').style.display = 'block';
     }
 
-    // बैंक लोन
     function calculateLoan() {
         let p = parseFloat(document.getElementById('loanAmount').value);
-        let ar = parseFloat(document.getElementById('loanRate').value) / 12 / 100;
-        let n = parseFloat(document.getElementById('loanYears').value) * 12;
-        if(isNaN(p) || isNaN(ar) || isNaN(n)) { alert("लोन की जानकारी भरें!"); return; }
-        let emi = (p * ar * Math.pow(1 + ar, n)) / (Math.pow(1 + ar, n) - 1);
-        let total = emi * n;
-        document.getElementById('loanOutputText').innerHTML = `मासिक EMI: ₹${Math.round(emi).toLocaleString('en-IN')}<br>कुल भुगतान: ₹${Math.round(total).toLocaleString('en-IN')}`;
+        let ar = parseFloat(document.getElementById('loanRate').value);
+        let months = ((parseFloat(document.getElementById('loanYears').value) || 0) * 12) + (parseFloat(document.getElementById('loanMonths').value) || 0) + ((parseFloat(document.getElementById('loanDays').value) || 0) / 30);
+        if(isNaN(p) || isNaN(ar) || months <= 0) { alert("सही जानकारी भरें!"); return; }
+        let r = ar / 12 / 100;
+        let emi = (p * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+        let total = emi * months;
+        document.getElementById('loanOutputText').innerHTML = `मासिक EMI: ₹${Math.round(emi).toLocaleString('en-IN')}<br>कुल ब्याज: ₹${Math.round(total - p).toLocaleString('en-IN')}<br>कुल भुगतान: ₹${Math.round(total).toLocaleString('en-IN')}`;
         document.getElementById('loanResult').style.display = 'block';
     }
 
-    // उम्र और वार (Day name)
+    function calculateFD() {
+        let p = parseFloat(document.getElementById('fdAmount').value);
+        let ar = parseFloat(document.getElementById('fdRate').value);
+        let years = (parseFloat(document.getElementById('fdYears').value) || 0) + ((parseFloat(document.getElementById('fdMonths').value) || 0) / 12) + ((parseFloat(document.getElementById('fdDays').value) || 0) / 365);
+        if(isNaN(p) || isNaN(ar) || years <= 0) { alert("सही जानकारी भरें!"); return; }
+        let maturity = p * Math.pow((1 + ar / 100), years);
+        document.getElementById('fdOutputText').innerHTML = `कुल ब्याज: ₹${Math.round(maturity - p).toLocaleString('en-IN')}<br>परिपक्वता (Maturity): ₹${Math.round(maturity).toLocaleString('en-IN')}`;
+        document.getElementById('fdResult').style.display = 'block';
+    }
+
+    function calculateDiesel() {
+        let km = parseFloat(document.getElementById('dKm').value);
+        let litre = parseFloat(document.getElementById('dLitre').value);
+        let rate = parseFloat(document.getElementById('dRate').value) || 0;
+        if(isNaN(km) || isNaN(litre) || litre <= 0) { alert("सही मान भरें!"); return; }
+        let avg = (km / litre).toFixed(2);
+        let cost = rate > 0 ? `<br>कुल खर्च: ₹${Math.round(litre * rate).toLocaleString('en-IN')}` : '';
+        document.getElementById('dieselOutputText').innerHTML = `एवरेज: ${avg} किमी/लीटर${cost}`;
+        document.getElementById('dieselResult').style.display = 'block';
+    }
+
+    function calculateLabor() {
+        let wage = parseFloat(document.getElementById('lWage').value);
+        let days = parseFloat(document.getElementById('lDays').value) || 0;
+        let hours = parseFloat(document.getElementById('lHours').value) || 0;
+        if(isNaN(wage) || (days <= 0 && hours <= 0)) { alert("सही विवरण भरें!"); return; }
+        let total = (wage * days) + ((wage / 8) * hours);
+        document.getElementById('laborOutputText').innerHTML = `कुल मजदूरी: ₹${Math.round(total).toLocaleString('en-IN')}`;
+        document.getElementById('laborResult').style.display = 'block';
+    }
+
+    function calculateMilk() {
+        let liters = parseFloat(document.getElementById('mLiters').value);
+        let rate = parseFloat(document.getElementById('mRate').value);
+        let days = parseFloat(document.getElementById('mDays').value);
+        if(isNaN(liters) || isNaN(rate) || isNaN(days)) { alert("सभी खाने भरें!"); return; }
+        let totalLiters = liters * days;
+        let totalAmount = totalLiters * rate;
+        document.getElementById('milkOutputText').innerHTML = `कुल दूध: ${totalLiters} लीटर<br>कुल भुगतान: ₹${Math.round(totalAmount).toLocaleString('en-IN')}`;
+        document.getElementById('milkResult').style.display = 'block';
+    }
+
+    function calculateDiscount() {
+        let price = parseFloat(document.getElementById('discPrice').value);
+        let percent = parseFloat(document.getElementById('discPercent').value);
+        if(isNaN(price) || isNaN(percent)) { alert("कीमत व छूट भरें!"); return; }
+        let discAmount = (price * percent) / 100;
+        let finalPrice = price - discAmount;
+        document.getElementById('discOutputText').innerHTML = `बचत: ₹${Math.round(discAmount)}<br>देने योग्य राशि: ₹${Math.round(finalPrice).toLocaleString('en-IN')}`;
+        document.getElementById('discountResult').style.display = 'block';
+    }
+
     function calculateAge() {
         let bDateStr = document.getElementById('birthDate').value;
-        if(!bDateStr) { alert("जन्म तारीख चुनें!"); return; }
+        if(!bDateStr) { alert("तारीख चुनें!"); return; }
         let birth = new Date(bDateStr), today = new Date();
-        
         let y = today.getFullYear() - birth.getFullYear();
         let m = today.getMonth() - birth.getMonth();
         let d = today.getDate() - birth.getDate();
-
         if (d < 0) { m--; d += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
         if (m < 0) { y--; m += 12; }
-
-        const daysOfWeek = ["Ravivar (Sunday)", "Somwar (Monday)", "Mangalwar (Tuesday)", "Budhwar (Wednesday)", "Vrihaspativar (Thursday)", "Shukrawar (Friday)", "Shanivar (Saturday)"];
-        let birthDayName = daysOfWeek[birth.getDay()];
-
-        document.getElementById('ageOutputText').innerHTML = `उम्र: ${y} साल, ${m} महीने, ${d} दिन<br>जन्म का वार: ${birthDayName}`;
+        const daysOfWeek = ["रविवार (Sunday)", "सोमवार (Monday)", "मंगलवार (Tuesday)", "बुधवार (Wednesday)", "वीरवार (Thursday)", "शुक्रवार (Friday)", "शनिवार (Saturday)"];
+        document.getElementById('ageOutputText').innerHTML = `उम्र: ${y} साल, ${m} महीने, ${d} दिन<br>वार: ${daysOfWeek[birth.getDay()]}`;
         document.getElementById('ageResult').style.display = 'block';
     }
 </script>

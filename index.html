@@ -132,13 +132,13 @@
         <button class="reset-btn" onclick="resetCashForm()">🔄 Reset All</button>
         <table class="cash-table">
             <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
-            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="" placeholder="कुल सिक्के" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="" placeholder="0" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
+            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="" placeholder="कुल सिक्के" oninput="saveAndCalcField('cash')"></td><td class="cash-sub">0</td></tr>
             <tr><td>खुलें पैसे (₹)</td><td><input type="text" id="loosePaisa" value="0." oninput="handleLoosePaisa(this)" onkeydown="preventDeleteDot(event)"></td><td id="looseSub">0.00</td></tr>
         </table>
         <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
@@ -148,9 +148,9 @@
     <div id="land-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
-            <div class="form-group"><label>मात्रा / Quantity:</label><input type="number" id="landInput" placeholder="जैसे: 1"></div>
+            <div class="form-group"><label>मात्रा / Quantity:</label><input type="number" id="landInput" placeholder="जैसे: 1" oninput="saveField('land')"></div>
             <div class="form-group"><label>इकाई / Unit:</label>
-                <select id="landUnit">
+                <select id="landUnit" onchange="saveField('land')">
                     <option value="gaj">गज (Sq Yards)</option>
                     <option value="killa">किल्ला / एकड़ (Acre)</option>
                     <option value="kanal">कनाल (Kanal)</option>
@@ -165,11 +165,11 @@
     <!-- देसी ब्याज -->
     <div id="interest-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>मूलधन (₹) / Principal:</label><input type="number" id="principal" placeholder="50000"></div>
-        <div class="form-group"><label>ब्याज दर (रु सैकड़ा/महीना) / Interest Rate:</label><input type="number" id="rate" placeholder="2" step="0.5"></div>
+        <div class="form-group"><label>मूलधन (₹) / Principal:</label><input type="number" id="principal" placeholder="50000" oninput="saveField('interest')"></div>
+        <div class="form-group"><label>ब्याज दर (रु सैकड़ा/महीना) / Interest Rate:</label><input type="number" id="rate" placeholder="2" step="0.5" oninput="saveField('interest')"></div>
         <div class="row">
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="months" placeholder="0"></div>
-            <div class="form-group"><label>दिन / Days:</label><input type="number" id="days" placeholder="0"></div>
+            <div class="form-group"><label>महीने / Months:</label><input type="number" id="months" placeholder="0" oninput="saveField('interest')"></div>
+            <div class="form-group"><label>दिन / Days:</label><input type="number" id="days" placeholder="0" oninput="saveField('interest')"></div>
         </div>
         <button class="calc-btn" onclick="calculateInterest()">ब्याज निकालें</button>
         <div class="result-box" id="interestResult" style="display:none;"><h3>नतीजा:</h3><p id="interestOutputText"></p></div>
@@ -179,9 +179,9 @@
     <div id="weight-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
         <div class="row">
-            <div class="form-group"><label>मात्रा / Qty:</label><input type="number" id="wtInput" placeholder="5"></div>
+            <div class="form-group"><label>मात्रा / Qty:</label><input type="number" id="wtInput" placeholder="5" oninput="saveField('weight')"></div>
             <div class="form-group"><label>बदलाव / Conversion:</label>
-                <select id="wtType">
+                <select id="wtType" onchange="saveField('weight')">
                     <option value="man_to_kg">मन से किलो (Man to Kg)</option>
                     <option value="kg_to_man">किलो से मन (Kg to Man)</option>
                     <option value="quintal_to_kg">क्विंटल से किलो (Quintal to Kg)</option>
@@ -198,13 +198,13 @@
     <!-- बैंक लोन -->
     <div id="loan-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>लोन राशि (₹) / Loan Amount:</label><input type="number" id="loanAmount" placeholder="200000"></div>
-        <div class="form-group"><label>ब्याज दर (% सालाना) / Annual Rate:</label><input type="number" id="loanRate" placeholder="10" step="0.1"></div>
+        <div class="form-group"><label>लोन राशि (₹) / Loan Amount:</label><input type="number" id="loanAmount" placeholder="200000" oninput="saveField('loan')"></div>
+        <div class="form-group"><label>ब्याज दर (% सालाना) / Annual Rate:</label><input type="number" id="loanRate" placeholder="10" step="0.1" oninput="saveField('loan')"></div>
         <div class="row">
-            <div class="form-group"><label>साल / Years:</label><input type="number" id="loanYears" placeholder="0"></div>
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="loanMonths" placeholder="0"></div>
+            <div class="form-group"><label>साल / Years:</label><input type="number" id="loanYears" placeholder="0" oninput="saveField('loan')"></div>
+            <div class="form-group"><label>महीने / Months:</label><input type="number" id="loanMonths" placeholder="0" oninput="saveField('loan')"></div>
         </div>
-        <div class="form-group"><label>दिन / Days:</label><input type="number" id="loanDays" placeholder="0"></div>
+        <div class="form-group"><label>दिन / Days:</label><input type="number" id="loanDays" placeholder="0" oninput="saveField('loan')"></div>
         <button class="calc-btn" onclick="calculateLoan()">EMI निकालें</button>
         <div class="result-box" id="loanResult" style="display:none;"><h3>नतीजा:</h3><p id="loanOutputText"></p></div>
     </div>
@@ -212,13 +212,13 @@
     <!-- FD ब्याज -->
     <div id="fd-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>FD मूलधन (₹) / FD Amount:</label><input type="number" id="fdAmount" placeholder="100000"></div>
-        <div class="form-group"><label>ब्याज दर (% सालाना) / Interest Rate:</label><input type="number" id="fdRate" placeholder="6.5" step="0.1"></div>
+        <div class="form-group"><label>FD मूलधन (₹) / FD Amount:</label><input type="number" id="fdAmount" placeholder="100000" oninput="saveField('fd')"></div>
+        <div class="form-group"><label>ब्याज दर (% सालाना) / Interest Rate:</label><input type="number" id="fdRate" placeholder="6.5" step="0.1" oninput="saveField('fd')"></div>
         <div class="row">
-            <div class="form-group"><label>साल / Years:</label><input type="number" id="fdYears" placeholder="0"></div>
-            <div class="form-group"><label>महीने / Months:</label><input type="number" id="fdMonths" placeholder="0"></div>
+            <div class="form-group"><label>साल / Years:</label><input type="number" id="fdYears" placeholder="0" oninput="saveField('fd')"></div>
+            <div class="form-group"><label>महीने / Months:</label><input type="number" id="fdMonths" placeholder="0" oninput="saveField('fd')"></div>
         </div>
-        <div class="form-group"><label>दिन / Days:</label><input type="number" id="fdDays" placeholder="0"></div>
+        <div class="form-group"><label>दिन / Days:</label><input type="number" id="fdDays" placeholder="0" oninput="saveField('fd')"></div>
         <button class="calc-btn" onclick="calculateFD()">FD हिसाब</button>
         <div class="result-box" id="fdResult" style="display:none;"><h3>नतीजा:</h3><p id="fdOutputText"></p></div>
     </div>
@@ -226,9 +226,9 @@
     <!-- डीजल / एवरेज -->
     <div id="diesel-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150"></div>
-        <div class="form-group"><label>खर्च डीजल (Litre):</label><input type="number" id="dLitre" placeholder="10"></div>
-        <div class="form-group"><label>डीजल भाव (₹ प्रति लीटर):</label><input type="number" id="dRate" placeholder="90"></div>
+        <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150" oninput="saveField('diesel')"></div>
+        <div class="form-group"><label>खर्च डीजल (Litre):</label><input type="number" id="dLitre" placeholder="10" oninput="saveField('diesel')"></div>
+        <div class="form-group"><label>डीजल भाव (₹ प्रति लीटर):</label><input type="number" id="dRate" placeholder="90" oninput="saveField('diesel')"></div>
         <button class="calc-btn" onclick="calculateDiesel()">एवरेज निकालें</button>
         <div class="result-box" id="dieselResult" style="display:none;"><h3>नतीजा:</h3><p id="dieselOutputText"></p></div>
     </div>
@@ -236,10 +236,10 @@
     <!-- मजदूरी / दिहाड़ी -->
     <div id="labor-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>एक दिन की दिहाड़ी (₹) / Daily Wage:</label><input type="number" id="lWage" placeholder="500"></div>
+        <div class="form-group"><label>एक दिन की दिहाड़ी (₹) / Daily Wage:</label><input type="number" id="lWage" placeholder="500" oninput="saveField('labor')"></div>
         <div class="row">
-            <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="lDays" placeholder="12"></div>
-            <div class="form-group"><label>घंटे / Hours:</label><input type="number" id="lHours" placeholder="0"></div>
+            <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="lDays" placeholder="12" oninput="saveField('labor')"></div>
+            <div class="form-group"><label>घंटे / Hours:</label><input type="number" id="lHours" placeholder="0" oninput="saveField('labor')"></div>
         </div>
         <button class="calc-btn" onclick="calculateLabor()">मजदूरी हिसाब</button>
         <div class="result-box" id="laborResult" style="display:none;"><h3>नतीजा:</h3><p id="laborOutputText"></p></div>
@@ -248,9 +248,9 @@
     <!-- दूध का हिसाब -->
     <div id="milk-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>प्रतिदिन दूध (Litre) / Daily Milk:</label><input type="number" id="mLiters" placeholder="5" step="0.5"></div>
-        <div class="form-group"><label>भाव (₹ प्रति लीटर) / Rate:</label><input type="number" id="mRate" placeholder="60"></div>
-        <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="mDays" placeholder="30"></div>
+        <div class="form-group"><label>प्रतिदिन दूध (Litre) / Daily Milk:</label><input type="number" id="mLiters" placeholder="5" step="0.5" oninput="saveField('milk')"></div>
+        <div class="form-group"><label>भाव (₹ प्रति लीटर) / Rate:</label><input type="number" id="mRate" placeholder="60" oninput="saveField('milk')"></div>
+        <div class="form-group"><label>कुल दिन / Days:</label><input type="number" id="mDays" placeholder="30" oninput="saveField('milk')"></div>
         <button class="calc-btn" onclick="calculateMilk()">दूध हिसाब</button>
         <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
     </div>
@@ -258,7 +258,7 @@
     <!-- उम्र और वार -->
     <div id="age-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>जन्म तारीख / Birth Date:</label><input type="date" id="birthDate"></div>
+        <div class="form-group"><label>जन्म तारीख / Birth Date:</label><input type="date" id="birthDate" onchange="saveField('age')"></div>
         <button class="calc-btn" onclick="calculateAge()">उम्र निकालें</button>
         <div class="result-box" id="ageResult" style="display:none;"><h3>नतीजा:</h3><p id="ageOutputText"></p></div>
     </div>
@@ -266,11 +266,11 @@
     <!-- सामान का भाव -->
     <div id="item-rate-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100"></div>
+        <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100" oninput="saveField('itemRate')"></div>
         <div class="row">
-            <div class="form-group"><label>कितनी मात्रा का / Qty:</label><input type="number" id="itemQty" value="1" placeholder="1"></div>
+            <div class="form-group"><label>कितनी मात्रा का / Qty:</label><input type="number" id="itemQty" value="1" placeholder="1" oninput="saveField('itemRate')"></div>
             <div class="form-group"><label>इकाई / Unit:</label>
-                <select id="itemUnit">
+                <select id="itemUnit" onchange="saveField('itemRate')">
                     <option value="kg">किलोग्राम (Kg)</option>
                     <option value="gram">ग्राम (Gram)</option>
                     <option value="litre">लीटर (Litre)</option>
@@ -281,9 +281,9 @@
         <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
         <p style="font-size: 13px; font-weight: bold; color: #2e7d32; margin-bottom: 6px;">पड़ताल (क्या निकालना है?):</p>
         <div class="row">
-            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500"></div>
+            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500" oninput="saveField('itemRate')"></div>
             <div class="form-group"><label>इकाई चुनें:</label>
-                <select id="checkWeightUnit">
+                <select id="checkWeightUnit" onchange="saveField('itemRate')">
                     <option value="gram">ग्राम (Gram)</option>
                     <option value="kg">किलोग्राम (Kg)</option>
                     <option value="ml">मिलीलीटर (Ml)</option>
@@ -291,7 +291,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50"></div>
+        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50" oninput="saveField('itemRate')"></div>
         <button class="calc-btn" onclick="calculateItemRate()">हिसाब देखें</button>
         <div class="result-box" id="itemResult" style="display:none;"><h3>नतीजा:</h3><p id="itemOutputText"></p></div>
     </div>
@@ -301,13 +301,13 @@
 <script>
     let currentLang = 'hi';
 
-    // Restore section and cash data on page load
+    // Restore section and all saved data on page load
     window.onload = function() {
         let savedSection = localStorage.getItem('activeSection');
         if (savedSection && savedSection !== 'menu') {
             openSection(savedSection, true);
         }
-        loadCashData();
+        loadAllData();
     };
 
     function toggleLanguage() {
@@ -357,6 +357,67 @@
         }
     };
 
+    // Generic function to save input fields data for any section
+    function saveField(sectionKey) {
+        let data = {};
+        let secElement = document.getElementById(sectionKey + '-section');
+        if (!secElement) return;
+        secElement.querySelectorAll('input, select').forEach((el, index) => {
+            if(el.id) {
+                data[el.id] = el.value;
+            }
+        });
+        localStorage.setItem('sectionData_' + sectionKey, JSON.stringify(data));
+    }
+
+    function saveAndCalcField(sectionKey) {
+        calculateCash();
+    }
+
+    // Load data for all sections
+    function loadAllData() {
+        // Load Cash
+        let savedCash = localStorage.getItem('cashCounterData');
+        if (savedCash) {
+            try {
+                let cashData = JSON.parse(savedCash);
+                document.querySelectorAll('.cash-qty').forEach((input, index) => {
+                    if (cashData['qty_' + index] !== undefined) {
+                        input.value = cashData['qty_' + index];
+                    }
+                });
+                if (cashData['loose'] !== undefined) {
+                    document.getElementById('loosePaisa').value = cashData['loose'];
+                }
+                calculateCash();
+            } catch(e) {}
+        }
+
+        // Load other sections dynamically
+        let sections = ['land', 'interest', 'weight', 'loan', 'fd', 'diesel', 'labor', 'milk', 'age', 'itemRate'];
+        sections.forEach(secKey => {
+            let saved = localStorage.getItem('sectionData_' + secKey);
+            if (saved) {
+                try {
+                    let data = JSON.parse(saved);
+                    for (let id in data) {
+                        let el = document.getElementById(id);
+                        if (el) {
+                            el.value = data[id];
+                        }
+                    }
+                } catch(e) {}
+            }
+        });
+
+        // Load Simple Calculator Screen if needed
+        let calcScr = localStorage.getItem('simpleCalcScreen');
+        if(calcScr) {
+            let scr = document.getElementById('calcScreen');
+            if(scr) scr.value = calcScr;
+        }
+    }
+
     // Save and Calculate Cash
     function calculateCash() {
         let total = 0;
@@ -371,7 +432,6 @@
         });
 
         let looseVal = document.getElementById('loosePaisa').value;
-        // Fix for loose paisa parsing (e.g. "0.10" or numbers after dot)
         let looseNum = 0;
         if (looseVal.startsWith("0.")) {
             let decimalPart = looseVal.substring(2);
@@ -388,25 +448,6 @@
         localStorage.setItem('cashCounterData', JSON.stringify(cashData));
     }
 
-    // Load Cash Data from LocalStorage
-    function loadCashData() {
-        let savedData = localStorage.getItem('cashCounterData');
-        if (savedData) {
-            try {
-                let cashData = JSON.parse(savedData);
-                document.querySelectorAll('.cash-qty').forEach((input, index) => {
-                    if (cashData['qty_' + index] !== undefined) {
-                        input.value = cashData['qty_' + index];
-                    }
-                });
-                if (cashData['loose'] !== undefined) {
-                    document.getElementById('loosePaisa').value = cashData['loose'];
-                }
-                calculateCash();
-            } catch(e) { console.error(e); }
-        }
-    }
-
     // Reset cash form function
     function resetCashForm() {
         document.querySelectorAll('.cash-qty').forEach(input => {
@@ -421,7 +462,6 @@
         localStorage.removeItem('cashCounterData');
     }
 
-    // Lock 0. so user cannot delete the dot or zero in loose paisa
     function handleLoosePaisa(input) {
         let val = input.value;
         if (!val.startsWith("0.")) {
@@ -437,15 +477,33 @@
         }
     }
 
-    function clcAppend(val) { document.getElementById('calcScreen').value += val; }
-    function clcClear() { document.getElementById('calcScreen').value = ''; }
-    function clcDel() { let s = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value = s.substring(0, s.length - 1); }
+    function clcAppend(val) { 
+        let scr = document.getElementById('calcScreen');
+        scr.value += val; 
+        localStorage.setItem('simpleCalcScreen', scr.value);
+    }
+    function clcClear() { 
+        let scr = document.getElementById('calcScreen');
+        scr.value = ''; 
+        localStorage.removeItem('simpleCalcScreen');
+    }
+    function clcDel() { 
+        let scr = document.getElementById('calcScreen');
+        let s = scr.value; 
+        scr.value = s.substring(0, s.length - 1); 
+        localStorage.setItem('simpleCalcScreen', scr.value);
+    }
     function clscEval() {
-        try { document.getElementById('calcScreen').value = eval(document.getElementById('calcScreen').value); }
+        try { 
+            let scr = document.getElementById('calcScreen');
+            scr.value = eval(scr.value); 
+            localStorage.setItem('simpleCalcScreen', scr.value);
+        }
         catch(e) { alert("गलत हिसाब! / Invalid calculation!"); }
     }
 
     function calculateItemRate() {
+        saveField('itemRate');
         let price = parseFloat(document.getElementById('itemPrice').value);
         let qty = parseFloat(document.getElementById('itemQty').value);
         let unit = document.getElementById('itemUnit').value;
@@ -492,6 +550,7 @@
     }
 
     function calculateLand() {
+        saveField('land');
         let val = parseFloat(document.getElementById('landInput').value);
         let unit = document.getElementById('landUnit').value;
         if(isNaN(val) || val <= 0) { alert("सही अंक भरें!"); return; }
@@ -502,6 +561,7 @@
     }
 
     function calculateInterest() {
+        saveField('interest');
         let p = parseFloat(document.getElementById('principal').value);
         let r = parseFloat(document.getElementById('rate').value);
         let m = parseFloat(document.getElementById('months').value) || 0;
@@ -513,6 +573,7 @@
     }
 
     function calculateWeight() {
+        saveField('weight');
         let val = parseFloat(document.getElementById('wtInput').value);
         let type = document.getElementById('wtType').value;
         if(isNaN(val) || val <= 0) { alert("मात्रा भरें!"); return; }
@@ -522,6 +583,7 @@
     }
 
     function calculateLoan() {
+        saveField('loan');
         let p = parseFloat(document.getElementById('loanAmount').value);
         let ar = parseFloat(document.getElementById('loanRate').value);
         let months = ((parseFloat(document.getElementById('loanYears').value) || 0) * 12) + (parseFloat(document.getElementById('loanMonths').value) || 0) + ((parseFloat(document.getElementById('loanDays').value) || 0) / 30);
@@ -534,6 +596,7 @@
     }
 
     function calculateFD() {
+        saveField('fd');
         let p = parseFloat(document.getElementById('fdAmount').value);
         let ar = parseFloat(document.getElementById('fdRate').value);
         let years = (parseFloat(document.getElementById('fdYears').value) || 0) + ((parseFloat(document.getElementById('fdMonths').value) || 0) / 12) + ((parseFloat(document.getElementById('fdDays').value) || 0) / 365);
@@ -544,6 +607,7 @@
     }
 
     function calculateDiesel() {
+        saveField('diesel');
         let km = parseFloat(document.getElementById('dKm').value);
         let litre = parseFloat(document.getElementById('dLitre').value);
         let rate = parseFloat(document.getElementById('dRate').value) || 0;
@@ -555,6 +619,7 @@
     }
 
     function calculateLabor() {
+        saveField('labor');
         let wage = parseFloat(document.getElementById('lWage').value);
         let days = parseFloat(document.getElementById('lDays').value) || 0;
         let hours = parseFloat(document.getElementById('lHours').value) || 0;
@@ -565,6 +630,7 @@
     }
 
     function calculateMilk() {
+        saveField('milk');
         let liters = parseFloat(document.getElementById('mLiters').value);
         let rate = parseFloat(document.getElementById('mRate').value);
         let days = parseFloat(document.getElementById('mDays').value);
@@ -576,6 +642,7 @@
     }
 
     function calculateAge() {
+        saveField('age');
         let bDateStr = document.getElementById('birthDate').value;
         if(!bDateStr) { alert("तारीख चुनें!"); return; }
         let birth = new Date(bDateStr), today = new Date();

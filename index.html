@@ -15,6 +15,7 @@
         .menu-list { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: #e8f5e9; border-bottom: 1px solid #ddd; }
         .menu-btn { width: 100%; padding: 10px 12px; background: #ffffff; border: 1px solid #c8e6c9; border-radius: 8px; font-weight: bold; font-size: 13px; color: #2e7d32; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .menu-btn:hover { background: #2e7d32; color: white; }
+        .menu-btn.primary { background: #2e7d32; color: white; font-size: 14px; }
 
         .section { padding: 12px; display: none; }
         .section.active { display: block; }
@@ -35,6 +36,14 @@
         .cash-table { width: 100%; font-size: 12px; margin-bottom: 8px; border-collapse: collapse; }
         .cash-table th, .cash-table td { padding: 5px; text-align: center; border-bottom: 1px solid #ddd; }
         .cash-table th { background: #e8f5e9; color: #2e7d32; }
+
+        /* Simple Calculator Keypad */
+        #calcScreen { width: 100%; height: 50px; font-size: 20px; text-align: right; margin-bottom: 8px; padding: 5px; background: #fff; }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .calc-key { padding: 12px; font-size: 16px; font-weight: bold; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 6px; cursor: pointer; text-align: center; color: #2e7d32; }
+        .calc-key:active { background: #2e7d32; color: #fff; }
+        .calc-key.operator { background: #c8e6c9; }
+        .calc-key.equal { background: #2e7d32; color: #fff; grid-column: span 2; }
     </style>
 </head>
 <body>
@@ -42,13 +51,14 @@
 <div class="container">
     <header>
         <h1>HisabKitab (हिसाब-किताब)</h1>
-        <p>जमीन, ब्याज, वजन, कैश, लोन, FD, मजदूरी और दूध टूल</p>
+        <p>जमीन, ब्याज, वजन, कैश, लोन, FD और टूल्स</p>
     </header>
 
     <!-- Main Menu List -->
     <div id="main-menu" class="menu-list">
+        <button class="menu-btn primary" onclick="openSection('simple-calc')">🧮 साधारण कैलकुलेटर (Simple Calc) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('land')">🌾 जमीन माप <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('cash')">💵 कैश काउंटर <span>➔</span></button>
+        <button class="menu-btn" onclick="openSection('cash')">💵 कैश काउंटर (नोट व सिक्के) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('interest')">💰 देसी ब्याज (महीने/दिन) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('weight')">⚖️ वजन और दूरी <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('loan')">🏦 बैंक लोन (EMI) <span>➔</span></button>
@@ -58,6 +68,32 @@
         <button class="menu-btn" onclick="openSection('milk')">🥛 दूध का हिसाब <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('discount')">🏷️ छूट (Discount) <span>➔</span></button>
         <button class="menu-btn" onclick="openSection('age')">⏳ उम्र और वार <span>➔</span></button>
+    </div>
+
+    <!-- 0. साधारण कैलकुलेटर -->
+    <div id="simple-calc-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
+        <input type="text" id="calcScreen" readonly placeholder="0">
+        <div class="calc-grid">
+            <div class="calc-key" onclick="clcClear()">C</div>
+            <div class="calc-key" onclick="clcDel()">⌫</div>
+            <div class="calc-key operator" onclick="clcAppend('/')">÷</div>
+            <div class="calc-key operator" onclick="clcAppend('*')">×</div>
+            <div class="calc-key" onclick="clcAppend('7')">7</div>
+            <div class="calc-key" onclick="clcAppend('8')">8</div>
+            <div class="calc-key" onclick="clcAppend('9')">9</div>
+            <div class="calc-key operator" onclick="clcAppend('-')">-</div>
+            <div class="calc-key" onclick="clcAppend('4')">4</div>
+            <div class="calc-key" onclick="clcAppend('5')">5</div>
+            <div class="calc-key" onclick="clcAppend('6')">6</div>
+            <div class="calc-key operator" onclick="clcAppend('+')">+</div>
+            <div class="calc-key" onclick="clcAppend('1')">1</div>
+            <div class="calc-key" onclick="clcAppend('2')">2</div>
+            <div class="calc-key" onclick="clcAppend('3')">3</div>
+            <div class="calc-key equal" onclick="clscEval()">=</div>
+            <div class="calc-key" onclick="clcAppend('0')">0</div>
+            <div class="calc-key" onclick="clcAppend('.')">.</div>
+        </div>
     </div>
 
     <!-- 1. जमीन -->
@@ -74,21 +110,25 @@
                 </select>
             </div>
         </div>
-        <button class="calc-btn" onclick="calculateLand()">हिساب देखें</button>
+        <button class="calc-btn" onclick="calculateLand()">हिसाब देखें</button>
         <div class="result-box" id="landResult" style="display:none;"><h3>नतीजा:</h3><p id="landOutputText"></p></div>
     </div>
 
-    <!-- 2. कैश -->
+    <!-- 2. कैश (नोट और सिक्के) -->
     <div id="cash-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <table class="cash-table">
-            <tr><th>नोट</th><th>संख्या</th><th>रुपये</th></tr>
+            <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
             <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
             <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 5 नोट/सिक्का</td><td><input type="number" class="cash-qty" data-val="5" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 2 सिक्का</td><td><input type="number" class="cash-qty" data-val="2" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 1 सिक्का</td><td><input type="number" class="cash-qty" data-val="1" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" placeholder="0.00" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0</td></tr>
         </table>
         <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
@@ -154,7 +194,7 @@
         <div class="result-box" id="fdResult" style="display:none;"><h3>नतीजा:</h3><p id="fdOutputText"></p></div>
     </div>
 
-    <!-- 7. डीजल / एवरेज -->
+    <!-- 7. डीजल -->
     <div id="diesel-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="form-group"><label>चली दूरी (Kilometer):</label><input type="number" id="dKm" placeholder="150"></div>
@@ -170,13 +210,13 @@
         <div class="form-group"><label>एक दिन की दिहाड़ी (₹):</label><input type="number" id="lWage" placeholder="500"></div>
         <div class="row">
             <div class="form-group"><label>कुल दिन:</label><input type="number" id="lDays" placeholder="12"></div>
-            <div class="form-group"><label>घंटे (Optional):</label><input type="number" id="lHours" placeholder="0"></div>
+            <div class="form-group"><label>घंटे:</label><input type="number" id="lHours" placeholder="0"></div>
         </div>
         <button class="calc-btn" onclick="calculateLabor()">मजदूरी हिसाब</button>
         <div class="result-box" id="laborResult" style="display:none;"><h3>नतीजा:</h3><p id="laborOutputText"></p></div>
     </div>
 
-    <!-- 9. दूध का हिसाब -->
+    <!-- 9. दूध -->
     <div id="milk-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="form-group"><label>प्रतिदिन दूध (Litre):</label><input type="number" id="mLiters" placeholder="5" step="0.5"></div>
@@ -186,7 +226,7 @@
         <div class="result-box" id="milkResult" style="display:none;"><h3>नतीजा:</h3><p id="milkOutputText"></p></div>
     </div>
 
-    <!-- 10. छूट (Discount) -->
+    <!-- 10. छूट -->
     <div id="discount-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="form-group"><label>मूल कीमत (MRP ₹):</label><input type="number" id="discPrice" placeholder="1500"></div>
@@ -195,7 +235,7 @@
         <div class="result-box" id="discountResult" style="display:none;"><h3>नतीजा:</h3><p id="discOutputText"></p></div>
     </div>
 
-    <!-- 11. उम्र और वार -->
+    <!-- 11. उम्र -->
     <div id="age-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे</button>
         <div class="form-group"><label>जन्म तारीख:</label><input type="date" id="birthDate"></div>
@@ -217,6 +257,15 @@
         document.getElementById('main-menu').style.display = 'flex';
     }
 
+    // साधारण कैलकुलेटर फंक्शन्स
+    function clcAppend(val) { document.getElementById('calcScreen').value += val; }
+    function clcClear() { document.getElementById('calcScreen').value = ''; }
+    function clcDel() { let s = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value = s.substring(0, s.length - 1); }
+    function clscEval() {
+        try { document.getElementById('calcScreen').value = eval(document.getElementById('calcScreen').value); }
+        catch(e) { alert("गलत हिसाब!"); }
+    }
+
     function calculateLand() {
         let val = parseFloat(document.getElementById('landInput').value);
         let unit = document.getElementById('landUnit').value;
@@ -235,7 +284,10 @@
             input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
             total += sub;
         });
-        document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN');
+        let loose = parseFloat(document.getElementById('loosePaisa').value) || 0;
+        document.getElementById('looseSub').innerText = loose.toFixed(2);
+        total += loose;
+        document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
     function calculateInterest() {

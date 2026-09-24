@@ -5,129 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HisabKitab - हिसाब-किताब</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            padding: 10px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        header {
-            background-color: #2e7d32;
-            color: white;
-            text-align: center;
-            padding: 15px;
-        }
-        header h1 {
-            font-size: 22px;
-            margin-bottom: 3px;
-        }
-        header p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        .tabs {
-            display: flex;
-            background: #e8f5e9;
-            overflow-x: auto;
-            border-bottom: 1px solid #ddd;
-            white-space: nowrap;
-            padding: 4px;
-        }
-        .tabs::-webkit-scrollbar {
-            height: 4px;
-        }
-        .tabs::-webkit-scrollbar-thumb {
-            background: #a5d6a7;
-            border-radius: 4px;
-        }
-        .tab-btn {
-            padding: 8px 12px;
-            text-align: center;
-            background: none;
-            border: none;
-            font-weight: bold;
-            font-size: 13px;
-            color: #2e7d32;
-            cursor: pointer;
-            transition: 0.3s;
-            flex-shrink: 0;
-            border-radius: 6px;
-            margin: 0 2px;
-        }
-        .tab-btn.active {
-            background: #2e7d32;
-            color: white;
-        }
-        .section {
-            padding: 15px;
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 600;
-            font-size: 13px;
-            color: #555;
-        }
-        input, select {
-            width: 100%;
-            padding: 9px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-        button.calc-btn {
-            width: 100%;
-            padding: 11px;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-        button.calc-btn:hover {
-            background-color: #1b5e20;
-        }
-        .result-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #f1f8e9;
-            border-left: 5px solid #2e7d32;
-            border-radius: 4px;
-        }
-        .result-box h3 {
-            font-size: 15px;
-            color: #2e7d32;
-            margin-bottom: 4px;
-        }
-        .result-box p {
-            font-size: 15px;
-            font-weight: bold;
-            color: #333;
-            line-height: 1.5;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f4f7f6; color: #333; padding: 10px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        header { background-color: #2e7d32; color: white; text-align: center; padding: 12px; }
+        header h1 { font-size: 20px; margin-bottom: 2px; }
+        header p { font-size: 12px; opacity: 0.9; }
+        .tabs { display: flex; background: #e8f5e9; overflow-x: auto; padding: 4px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+        .tabs::-webkit-scrollbar { height: 3px; }
+        .tabs::-webkit-scrollbar-thumb { background: #a5d6a7; border-radius: 3px; }
+        .tab-btn { padding: 7px 10px; background: none; border: none; font-weight: bold; font-size: 12px; color: #2e7d32; cursor: pointer; border-radius: 6px; margin: 0 2px; flex-shrink: 0; }
+        .tab-btn.active { background: #2e7d32; color: white; }
+        .section { padding: 12px; display: none; }
+        .section.active { display: block; }
+        .form-group { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 3px; font-weight: 600; font-size: 12px; color: #555; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button.calc-btn { width: 100%; padding: 10px; background-color: #2e7d32; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 4px; }
+        button.calc-btn:hover { background-color: #1b5e20; }
+        .result-box { margin-top: 12px; padding: 10px; background: #f1f8e9; border-left: 4px solid #2e7d32; border-radius: 4px; }
+        .result-box h3 { font-size: 14px; color: #2e7d32; margin-bottom: 3px; }
+        .result-box p { font-size: 14px; font-weight: bold; color: #333; line-height: 1.4; }
+        .row { display: flex; gap: 8px; }
+        .row .form-group { flex: 1; }
+        .cash-table { width: 100%; font-size: 13px; margin-bottom: 8px; border-collapse: collapse; }
+        .cash-table th, .cash-table td { padding: 5px; text-align: center; border-bottom: 1px solid #ddd; }
+        .cash-table th { background: #e8f5e9; color: #2e7d32; }
     </style>
 </head>
 <body>
@@ -135,136 +38,105 @@
 <div class="container">
     <header>
         <h1>HisabKitab (हिसाब-किताब)</h1>
-        <p>जमीन, ब्याज, वजन, लोन और FD का ऑल-इन-वन टूल</p>
+        <p>जमीन, ब्याज, वजन, कैश और लोन टूल</p>
     </header>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('land')">🌾 जमीन माप</button>
+        <button class="tab-btn" onclick="switchTab('cash')">💵 कैश काउंटर</button>
         <button class="tab-btn" onclick="switchTab('interest')">💰 देसी ब्याज</button>
         <button class="tab-btn" onclick="switchTab('weight')">⚖️ वजन/माप</button>
         <button class="tab-btn" onclick="switchTab('loan')">🏦 बैंक लोन</button>
-        <button class="tab-btn" onclick="switchTab('fd')">📈 FD ब्याज</button>
         <button class="tab-btn" onclick="switchTab('age')">⏳ उम्र</button>
     </div>
 
-    <!-- 1. जमीन कैलकुलेटर (गज से कilla/मरला और कilla से गज दोनों) -->
+    <!-- 1. जमीन कैलकुलेटर -->
     <div id="land-section" class="section active">
-        <div class="form-group">
-            <label>हिसाब का प्रकार चुनें:</label>
-            <select id="landType" onchange="toggleLandInputs()">
-                <option value="gaj_to_all">गज (Sq Yard) से कनाल/किल्ला जानें</option>
-                <option value="killa_to_gaj">किल्ला / एकड़ से गज जानें</option>
-                <option value="kanal_to_gaj">कनाल से गज जानें</option>
-            </select>
+        <div class="row">
+            <div class="form-group">
+                <label>मात्रा दर्ज करें:</label>
+                <input type="number" id="landInput" placeholder="जैसे: 1 या 500">
+            </div>
+            <div class="form-group">
+                <label>इकाई चुनें:</label>
+                <select id="landUnit">
+                    <option value="gaj">गज (Sq Yard)</option>
+                    <option value="killa">किल्ला / एकड़</option>
+                    <option value="kanal">कनाल</option>
+                    <option value="marla">मरला</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <label id="landLabel">गज (Sq Yard) दर्ज करें:</label>
-            <input type="number" id="landInput" placeholder="जैसे: 500">
-        </div>
-        <button class="calc-btn" onclick="calculateLand()">हिसाब लगाओ</button>
+        <button class="calc-btn" onclick="calculateLand()">हिसाब देखो</button>
         <div class="result-box" id="landResult" style="display:none;">
-            <h3>परिणाम:</h3>
+            <h3>सटीक हिसाब:</h3>
             <p id="landOutputText"></p>
         </div>
     </div>
 
-    <!-- 2. देसी ब्याज कैलकुलेटर -->
+    <!-- 2. कैश काउंटर कैलकुलेटर -->
+    <div id="cash-section" class="section">
+        <table class="cash-table">
+            <tr><th>नोट/सिक्का</th><th>संख्या (Qty)</th><th>amount</th></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" placeholder="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+        </table>
+        <div class="result-box" style="margin-top: 5px; background: #e8f5e9;">
+            <h3>कुल कैश (Total Cash):</h3>
+            <p id="totalCashText" style="font-size: 18px; color: #1b5e20;">₹ 0</p>
+        </div>
+    </div>
+
+    <!-- 3. देसी ब्याज कैलकुलेटर -->
     <div id="interest-section" class="section">
-        <div class="form-group">
-            <label>मूलधन (रुपये):</label>
-            <input type="number" id="principal" placeholder="जैसे: 50000">
-        </div>
-        <div class="form-group">
-            <label>ब्याज दर (रुपये सैकड़ा महीना):</label>
-            <input type="number" id="rate" placeholder="जैसे: 2" step="0.5">
-        </div>
-        <div class="form-group">
-            <label>समय (महीनों में):</label>
-            <input type="number" id="months" placeholder="जैसे: 12">
+        <div class="form-group"><label>मूलधन (रुपये):</label><input type="number" id="principal" placeholder="50000"></div>
+        <div class="row">
+            <div class="form-group"><label>ब्याज दर (रु सैकड़ा):</label><input type="number" id="rate" placeholder="2" step="0.5"></div>
+            <div class="form-group"><label>समय (महीने):</label><input type="number" id="months" placeholder="12"></div>
         </div>
         <button class="calc-btn" onclick="calculateInterest()">ब्याज निकालो</button>
         <div class="result-box" id="interestResult" style="display:none;">
-            <h3>कुल हिसाब:</h3>
-            <p id="interestOutputText"></p>
+            <h3>नतीजा:</h3><p id="interestOutputText"></p>
         </div>
     </div>
 
-    <!-- 3. वजन और माप कैलकुलेटर -->
+    <!-- 4. वजन और माप -->
     <div id="weight-section" class="section">
-        <div class="form-group">
-            <label>मात्रा दर्ज करें:</label>
-            <input type="number" id="wtInput" placeholder="जैसे: 5">
-        </div>
-        <div class="form-group">
-            <label>बदलाव चुनें:</label>
-            <select id="wtType">
-                <option value="man_to_kg">मन से किलोग्राम (1 मन = 40 किलो)</option>
-                <option value="kg_to_man">किलोग्राम से मन</option>
-                <option value="quintal_to_kg">क्विंटल से किलोग्राम (1 क्विंटल = 100 किलो)</option>
-                <option value="kg_to_g">किलोग्राम से ग्राम</option>
-                <option value="litre_to_ml">लीटर से मिलीलीटर</option>
-            </select>
+        <div class="row">
+            <div class="form-group"><label>मात्रा:</label><input type="number" id="wtInput" placeholder="5"></div>
+            <div class="form-group"><label>बदलाव:</label>
+                <select id="wtType">
+                    <option value="man_to_kg">मन से किलो (×40)</option>
+                    <option value="kg_to_man">किलो से मन (÷40)</option>
+                    <option value="quintal_to_kg">क्विंटल से किलो (×100)</option>
+                    <option value="kg_to_g">किलो से ग्राम</option>
+                </select>
+            </div>
         </div>
         <button class="calc-btn" onclick="calculateWeight()">बदलो</button>
-        <div class="result-box" id="weightResult" style="display:none;">
-            <h3>परिणाम:</h3>
-            <p id="weightOutputText"></p>
-        </div>
+        <div class="result-box" id="weightResult" style="display:none;"><h3>परिणाम:</h3><p id="weightOutputText"></p></div>
     </div>
 
-    <!-- 4. बैंक लोन (EMI) कैलकुलेटर -->
+    <!-- 5. बैंक लोन (EMI) -->
     <div id="loan-section" class="section">
-        <div class="form-group">
-            <label>लोन राशि (रुपये):</label>
-            <input type="number" id="loanAmount" placeholder="जैसे: 200000">
-        </div>
-        <div class="form-group">
-            <label>वार्षिक ब्याज दर (% सालाना):</label>
-            <input type="number" id="loanRate" placeholder="जैसे: 10" step="0.1">
-        </div>
-        <div class="form-group">
-            <label>लोन का समय (सालों में):</label>
-            <input type="number" id="loanYears" placeholder="जैसे: 3">
+        <div class="form-group"><label>लोन राशि (रुपये):</label><input type="number" id="loanAmount" placeholder="200000"></div>
+        <div class="row">
+            <div class="form-group"><label>ब्याज दर (% साल):</label><input type="number" id="loanRate" placeholder="10" step="0.1"></div>
+            <div class="form-group"><label>समय (साल):</label><input type="number" id="loanYears" placeholder="3"></div>
         </div>
         <button class="calc-btn" onclick="calculateLoan()">EMI निकालो</button>
-        <div class="result-box" id="loanResult" style="display:none;">
-            <h3>लोन का हिसाब:</h3>
-            <p id="loanOutputText"></p>
-        </div>
-    </div>
-
-    <!-- 5. FD कैलकुलेटर -->
-    <div id="fd-section" class="section">
-        <div class="form-group">
-            <label>FD मूलधन (रुपये):</label>
-            <input type="number" id="fdAmount" placeholder="जैसे: 100000">
-        </div>
-        <div class="form-group">
-            <label>ब्याज दर (% सालाना):</label>
-            <input type="number" id="fdRate" placeholder="जैसे: 6.5" step="0.1">
-        </div>
-        <div class="form-group">
-            <label>समय (सालों में):</label>
-            <input type="number" id="fdYears" placeholder="जैसे: 5">
-        </div>
-        <button class="calc-btn" onclick="calculateFD()">FD का हिसाब निकालो</button>
-        <div class="result-box" id="fdResult" style="display:none;">
-            <h3>FD परिपक्वता (Maturity) हिसाब:</h3>
-            <p id="fdOutputText"></p>
-        </div>
+        <div class="result-box" id="loanResult" style="display:none;"><h3>लोन हिसाब:</h3><p id="loanOutputText"></p></div>
     </div>
 
     <!-- 6. उम्र कैलकुलेटर -->
     <div id="age-section" class="section">
-        <div class="form-group">
-            <label>अपनी जन्म तारीख चुनें:</label>
-            <input type="date" id="birthDate">
-        </div>
+        <div class="form-group"><label>जन्म तारीख:</label><input type="date" id="birthDate"></div>
         <button class="calc-btn" onclick="calculateAge()">उम्र निकालो</button>
-        <div class="result-box" id="ageResult" style="display:none;">
-            <h3>आपकी उम्र:</h3>
-            <p id="ageOutputText"></p>
-        </div>
+        <div class="result-box" id="ageResult" style="display:none;"><h3>उम्र:</h3><p id="ageOutputText"></p></div>
     </div>
 
 </div>
@@ -273,136 +145,98 @@
     function switchTab(tabName) {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
-        const mapping = {'land': 0, 'interest': 1, 'weight': 2, 'loan': 3, 'fd': 4, 'age': 5};
+        const mapping = {'land': 0, 'cash': 1, 'interest': 2, 'weight': 3, 'loan': 4, 'age': 5};
         document.getElementById(tabName + '-section').classList.add('active');
         document.querySelectorAll('.tab-btn')[mapping[tabName]].classList.add('active');
     }
 
-    // जमीन के चयन के अनुसार लेबल बदलना
-    function toggleLandInputs() {
-        let type = document.getElementById('landType').value;
-        let label = document.getElementById('landLabel');
-        if(type === 'gaj_to_all') label.innerHTML = "गज (Sq Yard) दर्ज करें:";
-        else if(type === 'killa_to_gaj') label.innerHTML = "किल्ला / एकड़ दर्ज करें:";
-        else if(type === 'kanal_to_gaj') label.innerHTML = "कनाल दर्ज करें:";
-    }
-
-    // 1. जमीन कैलकुलेशन (दोनों तरफ से)
+    // जमीन कैलकुलेशन
     function calculateLand() {
         let val = parseFloat(document.getElementById('landInput').value);
-        let type = document.getElementById('landType').value;
-        if(isNaN(val) || val <= 0) { alert("कृपया सही मान दर्ज करें!"); return; }
+        let unit = document.getElementById('landUnit').value;
+        if(isNaN(val) || val <= 0) { alert("सही अंक भरें!"); return; }
 
-        let text = "";
-        if(type === 'gaj_to_all') {
-            let marla = val / 30.25;
-            let kanal = val / 605;
-            let killa = val / 4840;
-            text = `${val} गज =<br>• ${marla.toFixed(2)} मरला<br>• ${kanal.toFixed(2)} कनाल<br>• ${killa.toFixed(3)} एकड़/किल्ला`;
-        } else if(type === 'killa_to_gaj') {
-            let gaj = val * 4840;
-            let marla = val * 160;
-            let kanal = val * 8;
-            text = `${val} किल्ला/एकड़ =<br>• ${gaj.toLocaleString('en-IN')} गज (Sq Yard)<br>• ${kanal} कनाल<br>• ${marla} मरला`;
-        } else if(type === 'kanal_to_gaj') {
-            let gaj = val * 605;
-            let marla = val * 20;
-            text = `${val} कनाल =<br>• ${gaj.toLocaleString('en-IN')} गज (Sq Yard)<br>• ${marla} मरला`;
-        }
+        let gaj = 0;
+        if(unit === 'gaj') gaj = val;
+        else if(unit === 'killa') gaj = val * 4840;
+        else if(unit === 'kanal') gaj = val * 605;
+        else if(unit === 'marla') gaj = val * 30.25;
+
+        let killa = gaj / 4840;
+        let kanal = gaj / 605;
+        let marla = gaj / 30.25;
+
+        let text = `• ${gaj.toLocaleString('en-IN')} गज (Sq Yard)<br>` +
+                   `• ${kanal.toFixed(2)} कनाल<br>` +
+                   `• ${marla.toFixed(2)} मरला<br>` +
+                   `• ${killa.toFixed(3)} किल्ला / एकड़`;
 
         document.getElementById('landOutputText').innerHTML = text;
         document.getElementById('landResult').style.display = 'block';
     }
 
-    // 2. देसी ब्याज
+    // कैश काउंटर कैलकुलेशन
+    function calculateCash() {
+        let total = 0;
+        document.querySelectorAll('.cash-qty').forEach(input => {
+            let qty = parseFloat(input.value) || 0;
+            let val = parseFloat(input.dataset.val);
+            let sub = qty * val;
+            input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
+            total += sub;
+        });
+        document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN');
+    }
+
+    // देसी ब्याज
     function calculateInterest() {
         let p = parseFloat(document.getElementById('principal').value);
         let r = parseFloat(document.getElementById('rate').value);
         let m = parseFloat(document.getElementById('months').value);
-        if(isNaN(p) || isNaN(r) || isNaN(m)) { alert("सभी जानकारी सही से भरें!"); return; }
+        if(isNaN(p) || isNaN(r) || isNaN(m)) { alert("सारी जानकारी भरें!"); return; }
         let totalInterest = (p * r * m) / 100;
         let grandTotal = p + totalInterest;
-        let text = `कुल ब्याज: ₹${totalInterest.toLocaleString('en-IN')}<br>कुल देय राशि: ₹${grandTotal.toLocaleString('en-IN')}`;
-        document.getElementById('interestOutputText').innerHTML = text;
+        document.getElementById('interestOutputText').innerHTML = `ब्याज: ₹${totalInterest.toLocaleString('en-IN')}<br>कुल योग: ₹${grandTotal.toLocaleString('en-IN')}`;
         document.getElementById('interestResult').style.display = 'block';
     }
 
-    // 3. वजन और माप
+    // वजन और माप
     function calculateWeight() {
         let val = parseFloat(document.getElementById('wtInput').value);
         let type = document.getElementById('wtType').value;
-        if(isNaN(val) || val <= 0) { alert("सही मात्रा दर्ज करें!"); return; }
+        if(isNaN(val) || val <= 0) { alert("मात्रा भरें!"); return; }
         let text = "";
-        if(type === 'man_to_kg') text = `${val} मन = ${(val * 40).toLocaleString('en-IN')} किलोग्राम`;
-        else if(type === 'kg_to_man') text = `${val} किलोग्राम = ${(val / 40).toFixed(2)} मन`;
-        else if(type === 'quintal_to_kg') text = `${val} क्विंटल = ${(val * 100).toLocaleString('en-IN')} किलोग्राम`;
+        if(type === 'man_to_kg') text = `${val} मन = ${(val * 40).toLocaleString('en-IN')} किलो`;
+        else if(type === 'kg_to_man') text = `${val} किलो = ${(val / 40).toFixed(2)} मन`;
+        else if(type === 'quintal_to_kg') text = `${val} क्विंटल = ${(val * 100).toLocaleString('en-IN')} किलो`;
         else if(type === 'kg_to_g') text = `${val} किलो = ${(val * 1000).toLocaleString('en-IN')} ग्राम`;
-        else if(type === 'litre_to_ml') text = `${val} लीटर = ${(val * 1000).toLocaleString('en-IN')} मिलीलीटर`;
-        
         document.getElementById('weightOutputText').innerHTML = text;
         document.getElementById('weightResult').style.display = 'block';
     }
 
-    // 4. बैंक लोन (EMI)
+    // बैंक लोन
     function calculateLoan() {
         let p = parseFloat(document.getElementById('loanAmount').value);
-        let annualRate = parseFloat(document.getElementById('loanRate').value);
-        let years = parseFloat(document.getElementById('loanYears').value);
-        if(isNaN(p) || isNaN(annualRate) || isNaN(years)) { alert("लोन की सारी जानकारी भरें!"); return; }
-        
-        let r = annualRate / 12 / 100;
-        let n = years * 12;
-        let emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        let totalPayment = emi * n;
-        let totalInterest = totalPayment - p;
-
-        let text = `मासिक किस्त (EMI): ₹${Math.round(emi).toLocaleString('en-IN')}<br>` +
-                   `कुल ब्याज: ₹${Math.round(totalInterest).toLocaleString('en-IN')}<br>` +
-                   `कुल भुगतान: ₹${Math.round(totalPayment).toLocaleString('en-IN')}`;
-        document.getElementById('loanOutputText').innerHTML = text;
+        let ar = parseFloat(document.getElementById('loanRate').value) / 12 / 100;
+        let n = parseFloat(document.getElementById('loanYears').value) * 12;
+        if(isNaN(p) || isNaN(ar) || isNaN(n)) { alert("लोन की जानकारी भरें!"); return; }
+        let emi = (p * ar * Math.pow(1 + ar, n)) / (Math.pow(1 + ar, n) - 1);
+        let total = emi * n;
+        document.getElementById('loanOutputText').innerHTML = `मासिक EMI: ₹${Math.round(emi).toLocaleString('en-IN')}<br>कुल भुगतान: ₹${Math.round(total).toLocaleString('en-IN')}`;
         document.getElementById('loanResult').style.display = 'block';
     }
 
-    // 5. FD कैलकुलेटर
-    function calculateFD() {
-        let p = parseFloat(document.getElementById('fdAmount_').value); // fallback handled below
-        let amountInput = parseFloat(document.getElementById('fdAmount').value);
-        let r = parseFloat(document.getElementById('fdRate').value);
-        let t = parseFloat(document.getElementById('fdYears').value);
-        if(isNaN(amountInput) || isNaN(r) || isNaN(t)) { alert("FD की सारी जानकारी भरें!"); return; }
-
-        let maturity = amountInput * Math.pow((1 + r / 100), t);
-        let interest = maturity - amountInput;
-
-        let text = `कुल ब्याज: ₹${Math.round(interest).toLocaleString('en-IN')}<br>` +
-                   `कुल मिलने वाली रकम (Maturity): ₹${Math.round(maturity).toLocaleString('en-IN')}`;
-        document.getElementById('fdOutputText').innerHTML = text;
-        document.getElementById('fdResult').style.display = 'block';
-    }
-
-    // 6. उम्र कैलकुलेटर
+    // उम्र
     function calculateAge() {
         let bDateStr = document.getElementById('birthDate').value;
-        if(!bDateStr) { alert("कृपया जन्म तारीख चुनें!"); return; }
-        let birth = new Date(bDateStr);
-        let today = new Date();
-
-        let years = today.getFullYear() - birth.getFullYear();
-        let months = today.getMonth() - birth.getMonth();
-        let days = today.getDate() - birth.getDate();
-
-        if (days < 0) {
-            months--;
-            days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-        }
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-
-        let text = `${years} साल, ${months} महीने, और ${days} दिन`;
-        document.getElementById('ageOutputText').innerHTML = text;
+        if(!bDateStr) { alert("तारीख चुनें!"); return; }
+        let birth = new Date(bDateStr), today = new Date();
+        let y = today.getFullYear() - birth.getFullYear();
+        let m = today.getMonth() - birth.getMonth();
+        let d = today.getDate() - birth.getDate();
+        if (d < 0) { m--; d += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
+        if (m < 0) { y--; m += 12; }
+        document.getElementById('ageOutputText').innerHTML = `${y} साल, ${m} महीने, ${d} दिन`;
         document.getElementById('ageResult').style.display = 'block';
     }
 </script>

@@ -13,7 +13,6 @@
         header h1 { font-size: 18px; margin-bottom: 2px; }
         header p { font-size: 11px; opacity: 0.9; }
 
-        /* Language Toggle Button Style */
         .lang-toggle-btn {
             position: absolute;
             top: 10px;
@@ -30,26 +29,22 @@
         }
         .lang-toggle-btn:active { background: #e8f5e9; }
         
-        .menu-list { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #e8f5e9; border-bottom: 1px solid #ddd; }
+        .menu-list { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f9f9f9; border-bottom: 1px solid #ddd; }
         
-        /* Sabhi buttons ab bade, bold aur dark green style mein */
-        .menu-btn { 
-            width: 100%; 
-            padding: 13px 14px; 
-            background: #2e7d32; 
-            border: none; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            font-size: 14px; 
-            color: white; 
-            text-align: left; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .menu-btn:hover { background: #1b5e20; }
+        /* Har button ke liye alag aur shandar color */
+        .menu-btn { width: 100%; padding: 13px 14px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; color: white; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-1 { background: #2e7d32; } /* Simple Calc */
+        .btn-2 { background: #00838f; } /* Cash Counter (2nd Position) */
+        .btn-3 { background: #558b2f; } /* Land */
+        .btn-4 { background: #ef6c00; } /* Interest */
+        .btn-5 { background: #4527a0; } /* Weight */
+        .btn-6 { background: #ad1457; } /* Loan */
+        .btn-7 { background: #6a1b9a; } /* FD */
+        .btn-8 { background: #0277bd; } /* Diesel */
+        .btn-9 { background: #37474f; } /* Labor */
+        .btn-10 { background: #00695c; } /* Milk */
+        .btn-11 { background: #c62828; } /* Age */
+        .btn-12 { background: #827717; } /* Item Rate (Last Position) */
 
         .section { padding: 12px; display: none; }
         .section.active { display: block; }
@@ -89,20 +84,20 @@
         <p id="appSub">जमीन, ब्याज, वजन, कैश, लोन, FD और टूल्स</p>
     </header>
 
-    <!-- Main Menu List -->
+    <!-- Main Menu List (Cash Counter at 2nd, Item Rate at Last) -->
     <div id="main-menu" class="menu-list">
-        <button class="menu-btn" onclick="openSection('simple-calc')"><span data-hi="🧮 साधारण कैलकुलेटर" data-en="🧮 Simple Calculator">🧮 साधारण कैलकुलेटर</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('item-rate')"><span data-hi="⚖️ सामान का भाव" data-en="⚖️ Item Rate / Weight">⚖️ सामान का भाव</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('land')"><span data-hi="🌾 जमीन माप" data-en="🌾 Land Measurement">🌾 जमीन माप</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('cash')"><span data-hi="💵 कैश काउंटर" data-en="💵 Cash Counter">💵 कैश काउंटर</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('interest')"><span data-hi="💰 देसी ब्याज" data-en="💰 Village Interest">💰 देसी ब्याज</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('weight')"><span data-hi="⚖️ वजन और दूरी" data-en="⚖️ Weight & Distance">⚖️ वजन और दूरी</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('loan')"><span data-hi="🏦 बैंक लोन (EMI)" data-en="🏦 Bank Loan (EMI)">🏦 बैंक लोन (EMI)</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('fd')"><span data-hi="📈 FD ब्याज" data-en="📈 FD Interest">📈 FD ब्याज</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('diesel')"><span data-hi="🚜 डीजल / एवरेज" data-en="🚜 Diesel / Mileage">🚜 डीजल / एवरेज</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('labor')"><span data-hi="🧱 मजदूरी / दिहाड़ी" data-en="🧱 Labor / Wages">🧱 मजदूरी / दिहाड़ी</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('milk')"><span data-hi="🥛 दूध का हिसाब" data-en="🥛 Milk Calculation">🥛 दूध का हिसाब</span> <span>➔</span></button>
-        <button class="menu-btn" onclick="openSection('age')"><span data-hi="⏳ उम्र और वार" data-en="⏳ Age & Day">⏳ उम्र और वार</span> <span>➔</span></button>
+        <button class="menu-btn btn-1" onclick="openSection('simple-calc')"><span data-hi="🧮 साधारण कैलकुलेटर" data-en="🧮 Simple Calculator">🧮 साधारण कैलकुलेटर</span> <span>➔</span></button>
+        <button class="menu-btn btn-2" onclick="openSection('cash')"><span data-hi="💵 कैश काउंटर" data-en="💵 Cash Counter">💵 कैश काउंटर</span> <span>➔</span></button>
+        <button class="menu-btn btn-3" onclick="openSection('land')"><span data-hi="🌾 जमीन माप" data-en="🌾 Land Measurement">🌾 जमीन माप</span> <span>➔</span></button>
+        <button class="menu-btn btn-4" onclick="openSection('interest')"><span data-hi="💰 देसी ब्याज" data-en="💰 Village Interest">💰 देसी ब्याज</span> <span>➔</span></button>
+        <button class="menu-btn btn-5" onclick="openSection('weight')"><span data-hi="⚖️ वजन और दूरी" data-en="⚖️ Weight & Distance">⚖️ वजन और दूरी</span> <span>➔</span></button>
+        <button class="menu-btn btn-6" onclick="openSection('loan')"><span data-hi="🏦 बैंक लोन (EMI)" data-en="🏦 Bank Loan (EMI)">🏦 बैंक लोन (EMI)</span> <span>➔</span></button>
+        <button class="menu-btn btn-7" onclick="openSection('fd')"><span data-hi="📈 FD ब्याज" data-en="📈 FD Interest">📈 FD ब्याज</span> <span>➔</span></button>
+        <button class="menu-btn btn-8" onclick="openSection('diesel')"><span data-hi="🚜 डीजल / एवरेज" data-en="🚜 Diesel / Mileage">🚜 डीजल / एवरेज</span> <span>➔</span></button>
+        <button class="menu-btn btn-9" onclick="openSection('labor')"><span data-hi="🧱 मजदूरी / दिहाड़ी" data-en="🧱 Labor / Wages">🧱 मजदूरी / दिहाड़ी</span> <span>➔</span></button>
+        <button class="menu-btn btn-10" onclick="openSection('milk')"><span data-hi="🥛 दूध का हिसाब" data-en="🥛 Milk Calculation">🥛 दूध का हिसाब</span> <span>➔</span></button>
+        <button class="menu-btn btn-11" onclick="openSection('age')"><span data-hi="⏳ उम्र और वार" data-en="⏳ Age & Day">⏳ उम्र और वार</span> <span>➔</span></button>
+        <button class="menu-btn btn-12" onclick="openSection('item-rate')"><span data-hi="⚖️ सामान का भाव" data-en="⚖️ Item Rate / Weight">⚖️ सामान का भाव</span> <span>➔</span></button>
     </div>
 
     <!-- 0. साधारण कैलकुलेटर -->
@@ -131,37 +126,21 @@
         </div>
     </div>
 
-    <!-- 0.1 सामान का भाव कैलकुलेटर -->
-    <div id="item-rate-section" class="section">
+    <!-- 2. कैश काउंटर -->
+    <div id="cash-section" class="section">
         <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100"></div>
-        <div class="row">
-            <div class="form-group"><label>कितनी मात्रा का / Qty:</label><input type="number" id="itemQty" value="1" placeholder="1"></div>
-            <div class="form-group"><label>इकाई / Unit:</label>
-                <select id="itemUnit">
-                    <option value="kg">किलोग्राम (Kg)</option>
-                    <option value="gram">ग्राम (Gram)</option>
-                    <option value="litre">लीटर (Litre)</option>
-                    <option value="piece">नग / पीस (Piece)</option>
-                </select>
-            </div>
-        </div>
-        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
-        <p style="font-size: 13px; font-weight: bold; color: #2e7d32; margin-bottom: 6px;">पड़ताल (क्या निकालना है?):</p>
-        <div class="row">
-            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500"></div>
-            <div class="form-group"><label>इकाई चुनें:</label>
-                <select id="checkWeightUnit">
-                    <option value="gram">ग्राम (Gram)</option>
-                    <option value="kg">किलोग्राम (Kg)</option>
-                    <option value="ml">मिलीलीटर (Ml)</option>
-                    <option value="piece">पीस</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50"></div>
-        <button class="calc-btn" onclick="calculateItemRate()">हिसाब देखें</button>
-        <div class="result-box" id="itemResult" style="display:none;"><h3>नतीजा:</h3><p id="itemOutputText"></p></div>
+        <table class="cash-table">
+            <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
+            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
+            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="0" oninput="calculateCash()" placeholder="कुल सिक्के"></td><td class="cash-sub">0</td></tr>
+            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" value="0.00" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0.00</td></tr>
+        </table>
+        <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
 
     <!-- 1. जमीन -->
@@ -180,23 +159,6 @@
         </div>
         <button class="calc-btn" onclick="calculateLand()">हिसाब देखें</button>
         <div class="result-box" id="landResult" style="display:none;"><h3>नतीजा:</h3><p id="landOutputText"></p></div>
-    </div>
-
-    <!-- 2. कैश काउंटर -->
-    <div id="cash-section" class="section">
-        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
-        <table class="cash-table">
-            <tr><th>नोट / सिक्के</th><th>संख्या</th><th>रुपये</th></tr>
-            <tr><td>₹ 500</td><td><input type="number" class="cash-qty" data-val="500" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 200</td><td><input type="number" class="cash-qty" data-val="200" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 100</td><td><input type="number" class="cash-qty" data-val="100" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 50</td><td><input type="number" class="cash-qty" data-val="50" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 20</td><td><input type="number" class="cash-qty" data-val="20" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>₹ 10</td><td><input type="number" class="cash-qty" data-val="10" value="0" oninput="calculateCash()"></td><td class="cash-sub">0</td></tr>
-            <tr><td>सिक्के (₹ 5, 2, 1) कुल</td><td><input type="number" class="cash-qty" data-val="1" value="0" oninput="calculateCash()" placeholder="कुल सिक्के"></td><td class="cash-sub">0</td></tr>
-            <tr><td>खुलें पैसे (₹)</td><td><input type="number" id="loosePaisa" value="0" step="0.01" oninput="calculateCash()"></td><td id="looseSub">0.00</td></tr>
-        </table>
-        <div class="result-box" style="background: #e8f5e9;"><h3>कुल कैश / Total Cash:</h3><p id="totalCashText" style="color: #1b5e20;">₹ 0</p></div>
     </div>
 
     <!-- 3. ब्याज -->
@@ -298,6 +260,39 @@
         <div class="form-group"><label>जन्म तारीख / Birth Date:</label><input type="date" id="birthDate"></div>
         <button class="calc-btn" onclick="calculateAge()">उम्र निकालें</button>
         <div class="result-box" id="ageResult" style="display:none;"><h3>नतीजा:</h3><p id="ageOutputText"></p></div>
+    </div>
+
+    <!-- 11. सामान का भाव (Last Position) -->
+    <div id="item-rate-section" class="section">
+        <button class="back-menu-btn" onclick="goBackMenu()">← पीछे / Back</button>
+        <div class="form-group"><label>भाव (₹ कितने रुपये का) / Price (₹):</label><input type="number" id="itemPrice" placeholder="जैसे: 100"></div>
+        <div class="row">
+            <div class="form-group"><label>कितनी मात्रा का / Qty:</label><input type="number" id="itemQty" value="1" placeholder="1"></div>
+            <div class="form-group"><label>इकाई / Unit:</label>
+                <select id="itemUnit">
+                    <option value="kg">किलोग्राम (Kg)</option>
+                    <option value="gram">ग्राम (Gram)</option>
+                    <option value="litre">लीटर (Litre)</option>
+                    <option value="piece">नग / पीस (Piece)</option>
+                </select>
+            </div>
+        </div>
+        <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ddd;">
+        <p style="font-size: 13px; font-weight: bold; color: #2e7d32; margin-bottom: 6px;">पड़ताल (क्या निकालना है?):</p>
+        <div class="row">
+            <div class="form-group"><label>वजन/मात्रा से कीमत:</label><input type="number" id="checkWeight" placeholder="जैसे: 500"></div>
+            <div class="form-group"><label>इकाई चुनें:</label>
+                <select id="checkWeightUnit">
+                    <option value="gram">ग्राम (Gram)</option>
+                    <option value="kg">किलोग्राम (Kg)</option>
+                    <option value="ml">मिलीलीटर (Ml)</option>
+                    <option value="piece">पीस</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group"><label>या रुपये से वजन/मात्रा:</label><input type="number" id="checkMoney" placeholder="जैसे: 50"></div>
+        <button class="calc-btn" onclick="calculateItemRate()">हिसाब देखें</button>
+        <div class="result-box" id="itemResult" style="display:none;"><h3>नतीजा:</h3><p id="itemOutputText"></p></div>
     </div>
 
 </div>

@@ -301,12 +301,13 @@
 <script>
     let currentLang = 'hi';
 
-    // Restore section on page load
+    // Restore section and cash data on page load
     window.onload = function() {
         let savedSection = localStorage.getItem('activeSection');
         if (savedSection && savedSection !== 'menu') {
             openSection(savedSection, true);
         }
+        loadCashData();
     };
 
     function toggleLanguage() {
@@ -356,6 +357,56 @@
         }
     };
 
+    // Save and Calculate Cash
+    function calculateCash() {
+        let total = 0;
+        let cashData = {};
+        
+        document.querySelectorAll('.cash-qty').forEach((input, index) => {
+            let qty = parseFloat(input.value) || 0;
+            let sub = qty * parseFloat(input.dataset.val);
+            input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
+            total += sub;
+            cashData['qty_' + index] = input.value;
+        });
+
+        let looseVal = document.getElementById('loosePaisa').value;
+        // Fix for loose paisa parsing (e.g. "0.10" or numbers after dot)
+        let looseNum = 0;
+        if (looseVal.startsWith("0.")) {
+            let decimalPart = looseVal.substring(2);
+            looseNum = parseFloat("0." + decimalPart) || 0;
+        } else {
+            looseNum = parseFloat(looseVal) || 0;
+        }
+
+        document.getElementById('looseSub').innerText = looseNum.toFixed(2);
+        total += looseNum;
+        document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        cashData['loose'] = looseVal;
+        localStorage.setItem('cashCounterData', JSON.stringify(cashData));
+    }
+
+    // Load Cash Data from LocalStorage
+    function loadCashData() {
+        let savedData = localStorage.getItem('cashCounterData');
+        if (savedData) {
+            try {
+                let cashData = JSON.parse(savedData);
+                document.querySelectorAll('.cash-qty').forEach((input, index) => {
+                    if (cashData['qty_' + index] !== undefined) {
+                        input.value = cashData['qty_' + index];
+                    }
+                });
+                if (cashData['loose'] !== undefined) {
+                    document.getElementById('loosePaisa').value = cashData['loose'];
+                }
+                calculateCash();
+            } catch(e) { console.error(e); }
+        }
+    }
+
     // Reset cash form function
     function resetCashForm() {
         document.querySelectorAll('.cash-qty').forEach(input => {
@@ -367,6 +418,7 @@
         document.getElementById('loosePaisa').value = '0.';
         document.getElementById('looseSub').innerText = '0.00';
         document.getElementById('totalCashText').innerText = '₹ 0';
+        localStorage.removeItem('cashCounterData');
     }
 
     // Lock 0. so user cannot delete the dot or zero in loose paisa
@@ -375,6 +427,7 @@
         if (!val.startsWith("0.")) {
             input.value = "0.";
         }
+        calculateCash();
     }
 
     function preventDeleteDot(event) {
@@ -446,21 +499,6 @@
         let text = `• ${gaj.toLocaleString('en-IN')} गज (Sq Yards)<br>• ${(gaj/605).toFixed(2)} कनाल<br>• ${(gaj/30.25).toFixed(2)} मरला<br>• ${(gaj/4840).toFixed(3)} किल्ला / एकड़`;
         document.getElementById('landOutputText').innerHTML = text;
         document.getElementById('landResult').style.display = 'block';
-    }
-
-    function calculateCash() {
-        let total = 0;
-        document.querySelectorAll('.cash-qty').forEach(input => {
-            let qty = parseFloat(input.value) || 0;
-            let sub = qty * parseFloat(input.dataset.val);
-            input.parentElement.nextElementSibling.innerText = sub.toLocaleString('en-IN');
-            total += sub;
-        });
-        let looseVal = document.getElementById('loosePaisa').value;
-        let loose = parseFloat(looseVal) || 0;
-        document.getElementById('looseSub').innerText = loose.toFixed(2);
-        total += loose;
-        document.getElementById('totalCashText').innerText = "₹ " + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
     function calculateInterest() {
